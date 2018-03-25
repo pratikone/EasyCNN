@@ -1,5 +1,14 @@
+```
+python app.py
 
-# React + Flask starter kit
+webpack --watch
+
+
+```
+
+# -------------------------------------------------------------------------------------
+
+# Based on nReact + Flask starter kit and CoreUI JS
 
 A quick starter repo that includes Flask and React, with Babel and Webpack. For proof-of-concept projects, workshop settings, etc where you don't want to worry about developer setup or writing config files.
 
