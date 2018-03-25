@@ -3,6 +3,8 @@ python app.py
 
 webpack --watch
 
+npm link webpack (optional, in case of webpack not found error)
+
 
 ```
 
