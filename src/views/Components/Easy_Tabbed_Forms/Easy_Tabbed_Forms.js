@@ -25,6 +25,10 @@ import {
 import {Badge, TabContent, TabPane, Nav, NavItem, NavLink} from "reactstrap";
 import classnames from "classnames";
 
+import FileUpload from '../FileUpload/FileUpload.js';
+
+
+
 class Easy_Tabbed_Forms extends Component {
 
     constructor(props) {
@@ -50,26 +54,29 @@ class Easy_Tabbed_Forms extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col sm="60">
-            <Card>
+            <Card className="card-accent-primary"> 
               <CardHeader>
-              Something
+              Submit a new CNN job request  <i className="fa fa-plus-circle fa-lg mt-4"></i>
               </CardHeader>
               <CardBlock className="card-body">
              <Nav tabs>
               <NavItem>
                 <NavLink
-                  className={classnames({ active: this.state.activeTab === '1' })}
-                  onClick={() => { this.toggle('1'); }}
+                  className={classnames({ active: this.state.activeTab === '1'})}
+                  onClick={() => {
+                                 this.toggle('1');
+
+                                  }}
                 >
-                  Home
+                  Automatic
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={classnames({ active: this.state.activeTab === '2' })}
+                  className={classnames({ active: this.state.activeTab === '2'  })}
                   onClick={() => { this.toggle('2'); }}
                 >
-                  Profile
+                 Manual
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -77,28 +84,51 @@ class Easy_Tabbed_Forms extends Component {
                   className={classnames({ active: this.state.activeTab === '3' })}
                   onClick={() => { this.toggle('3'); }}
                 >
-                  Messages
+                  Pre-trained
                 </NavLink>
               </NavItem>
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
+              
               <TabPane tabId="1">
+               <Form action="" method="post" className="form_1">
                 <FormGroup>
-                  <Label htmlFor="company">Company</Label>
-                  <Input type="text" id="company" placeholder="Enter your company name"/>
+                  <Label htmlFor="layer_count_1">No. of layers</Label>
+                  <Input type="text" id="layer_count_1" placeholder="Enter the number of layers for CNN model"/>
                 </FormGroup>
+
+                <FileUpload/>
+                </Form>
 
               </TabPane>
               <TabPane tabId="2" >
-                <FormGroup>
-                  <Label htmlFor="vat">VAT</Label>
-                  <Input type="text" id="vat" placeholder="DE1234567890"/>
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="street">Street</Label>
-                  <Input type="text" id="street" placeholder="Enter street name"/>
-                </FormGroup>
-
+                  <FormGroup>
+                    <Label htmlFor="layer_count_2"></Label>No. of layers
+                    <Input type="text" id="layer_count_2" placeholder="Enter the number of layers for CNN model"/>
+                  </FormGroup>
+                  <Col xs="8">
+                    <FormGroup>
+                      <Label htmlFor="dimensions_X">Dimensions</Label>
+                      <Input type="text" id="dimensions_X" placeholder="0"/>
+                    </FormGroup>
+                  </Col>
+                  <Col xs="8">
+                    <FormGroup>
+                    <Input type="text" id="dimensions_Y" placeholder="0"/>
+                    </FormGroup>
+                  </Col>
+                    <FormGroup>
+                      <Label htmlFor="model_choose">Model Selection</Label>
+                      <Input type="select" name="model_choose" id="model_choose">
+                        <option value="1">Xception</option>
+                        <option value="2">Inceptionv3</option>
+                        <option value="3">InceptionResNetv2</option>
+                        <option value="4">DenseNet121</option>
+                        <option value="5">DenseNet169</option>
+                        <option value="6">DenseNet201</option>
+                      </Input>
+                    </FormGroup>
+                    <FileUpload/>
 
               </TabPane>
               <TabPane tabId="3">
@@ -117,15 +147,15 @@ class Easy_Tabbed_Forms extends Component {
                     </FormGroup>
                   </Col>
                 </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="country">Country</Label>
-                  <Input type="text" id="country" placeholder="Country name"/>
-                </FormGroup>
-
+                <FileUpload/>
               </TabPane>
             </TabContent>
 
               </CardBlock>
+              <CardFooter>
+                <Button type="submit" size="sm" color="success"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
+              </CardFooter>
             </Card>
           </Col>
         </Row>
