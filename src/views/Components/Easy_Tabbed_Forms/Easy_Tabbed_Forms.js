@@ -36,7 +36,11 @@ class Easy_Tabbed_Forms extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      layers: '0',
+      dimensions_X: '0',
+      dimensions_Y: '0',
+      model_selected: 'None'
     };
   }
 
@@ -47,6 +51,43 @@ class Easy_Tabbed_Forms extends Component {
       });
     }
   }
+
+
+
+  handleLayerChange: (e) => { this.setState({layers: e.target.value}) }
+  handleDimensionX: (e) => { this.setState({dimensions_X: e.target.value}) }
+  handleDimensionY: (e) => { this.setState({dimensions_Y: e.target.value}) }
+  handleModelSelection: (e) => { this.setState({model_selected: e.target.value}) }
+
+
+
+  submit_form( input ){
+    console.log( input );
+    fetch("http://localhost:5000/ajax_test")
+      .then(res => res)
+      .then(
+        (result) => {
+          // this.setState({
+          //   isLoaded: true,
+          //   items: result.items
+          // });
+          console.log("ajax works");
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          // this.setState({
+          //   isLoaded: true,
+          //   error
+          // });
+
+          console.log("ajax has errors " + error);
+        }
+      )
+  }
+
+
 
 
   render() {
@@ -94,7 +135,8 @@ class Easy_Tabbed_Forms extends Component {
                <Form action="" method="post" className="form_1">
                 <FormGroup>
                   <Label htmlFor="layer_count_1">No. of layers</Label>
-                  <Input type="text" id="layer_count_1" placeholder="Enter the number of layers for CNN model"/>
+                  <Input type="text" id="layer_count_1" value={this.state.layers} onChange={this.handleLayerChange}
+                              placeholder="Enter the number of layers for CNN model"/>
                 </FormGroup>
 
                 <FileUpload/>
@@ -104,17 +146,20 @@ class Easy_Tabbed_Forms extends Component {
               <TabPane tabId="2" >
                   <FormGroup>
                     <Label htmlFor="layer_count_2"></Label>No. of layers
-                    <Input type="text" id="layer_count_2" placeholder="Enter the number of layers for CNN model"/>
+                    <Input type="text" id="layer_count_2" value={this.state.layers} onChange={this.handleLayerChange}
+                              placeholder="Enter the number of layers for CNN model"/>
                   </FormGroup>
                   <Col xs="8">
                     <FormGroup>
                       <Label htmlFor="dimensions_X">Dimensions</Label>
-                      <Input type="text" id="dimensions_X" placeholder="0"/>
+                      <Input type="text" id="dimensions_X" value={this.state.dimensions_X} onChange={this.handleDimensionX}
+                                                 placeholder="0"/>
                     </FormGroup>
                   </Col>
                   <Col xs="8">
                     <FormGroup>
-                    <Input type="text" id="dimensions_Y" placeholder="0"/>
+                    <Input type="text" id="dimensions_Y"  value={this.state.dimensions_Y} onChange={this.handleDimensionY}
+                                            placeholder="0"/>
                     </FormGroup>
                   </Col>
                     <FormGroup>
@@ -153,7 +198,7 @@ class Easy_Tabbed_Forms extends Component {
 
               </CardBlock>
               <CardFooter>
-                <Button type="submit" size="sm" color="success"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                <Button type="submit" size="sm" color="success" onClick={(input) => {this.submit_form(input)}}><i className="fa fa-dot-circle-o"></i> Submit</Button>
                 <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>
@@ -164,28 +209,7 @@ class Easy_Tabbed_Forms extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:5000/ajax_test")
-      .then(res => res)
-      .then(
-        (result) => {
-          // this.setState({
-          //   isLoaded: true,
-          //   items: result.items
-          // });
-          console.log("ajax works");
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          // this.setState({
-          //   isLoaded: true,
-          //   error
-          // });
 
-          console.log("ajax has errors " + error);
-        }
-      )
   }
 
 
