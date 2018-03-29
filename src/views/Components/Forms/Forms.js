@@ -35,7 +35,7 @@ class Forms extends Component {
           <Col xs="12" sm="6">
             <Card>
               <CardHeader>
-                <strong>Credit Card</strong>
+                <strong>Credit Cardsss</strong>
                 <small> Form</small>
               </CardHeader>
               <CardBlock className="card-body">
