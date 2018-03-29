@@ -23,8 +23,7 @@ import {
   Table
 } from "reactstrap";
 
-import Easy_Forms from '../../views/Components/Easy_Forms/';
-import Easy_Tabs from '../../views/Components/Easy_Tabs/';
+import Easy_Tabbed_Forms from '../../views/Components/Easy_Tabbed_Forms/';
 
 const brandPrimary = '#20a8d8';
 const brandSuccess = '#4dbd74';
@@ -435,13 +434,9 @@ class Dashboard extends Component {
 
     return (
       <div className="animated fadeIn">
-        
-        <Row>
-          <Easy_Tabs/>
-        </Row>
 
         <Row>
-          <Easy_Forms/>
+          <Easy_Tabbed_Forms/>
         </Row>
 
 
