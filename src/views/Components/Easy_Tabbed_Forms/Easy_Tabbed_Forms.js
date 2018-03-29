@@ -54,16 +54,22 @@ class Easy_Tabbed_Forms extends Component {
 
 
 
-  handleLayerChange: (e) => { this.setState({layers: e.target.value}) }
-  handleDimensionX: (e) => { this.setState({dimensions_X: e.target.value}) }
-  handleDimensionY: (e) => { this.setState({dimensions_Y: e.target.value}) }
-  handleModelSelection: (e) => { this.setState({model_selected: e.target.value}) }
+  handleLayerChange(e) {this.setState({layers: e.target.value});}
+  handleDimensionX(e) {this.setState({dimensions_X: e.target.value}); }
+  handleDimensionY(e) {this.setState({dimensions_Y: e.target.value}); }
+  handleModelSelection(e) {this.setState({model_selected: e.target.value}); }
 
 
 
-  submit_form( input ){
-    console.log( input );
-    fetch("http://localhost:5000/ajax_test")
+  submit_form( e, component ){
+    console.log(component.state.layers);
+    fetch("http://localhost:5000/input_test", {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify( { layers: component.state.layers  } ), 
+      headers: new Headers({
+      'Content-Type': 'application/json'
+      })
+    })
       .then(res => res)
       .then(
         (result) => {
@@ -135,7 +141,7 @@ class Easy_Tabbed_Forms extends Component {
                <Form action="" method="post" className="form_1">
                 <FormGroup>
                   <Label htmlFor="layer_count_1">No. of layers</Label>
-                  <Input type="text" id="layer_count_1" value={this.state.layers} onChange={this.handleLayerChange}
+                  <Input type="text" id="layer_count_1" value={this.state.layers} onChange={(e) => { this.handleLayerChange(e); }}
                               placeholder="Enter the number of layers for CNN model"/>
                 </FormGroup>
 
@@ -146,25 +152,26 @@ class Easy_Tabbed_Forms extends Component {
               <TabPane tabId="2" >
                   <FormGroup>
                     <Label htmlFor="layer_count_2"></Label>No. of layers
-                    <Input type="text" id="layer_count_2" value={this.state.layers} onChange={this.handleLayerChange}
+                    <Input type="text" id="layer_count_2" value={this.state.layers} onChange={(e) => {this.handleLayerChange(e)}}
                               placeholder="Enter the number of layers for CNN model"/>
                   </FormGroup>
                   <Col xs="8">
                     <FormGroup>
                       <Label htmlFor="dimensions_X">Dimensions</Label>
-                      <Input type="text" id="dimensions_X" value={this.state.dimensions_X} onChange={this.handleDimensionX}
+                      <Input type="text" id="dimensions_X" value={this.state.dimensions_X} onChange={(e) => {this.handleDimensionX(e)}}
                                                  placeholder="0"/>
                     </FormGroup>
                   </Col>
                   <Col xs="8">
                     <FormGroup>
-                    <Input type="text" id="dimensions_Y"  value={this.state.dimensions_Y} onChange={this.handleDimensionY}
+                    <Input type="text" id="dimensions_Y"  value={this.state.dimensions_Y} onChange={(e) => {this.handleDimensionY(e)}}
                                             placeholder="0"/>
                     </FormGroup>
                   </Col>
                     <FormGroup>
                       <Label htmlFor="model_choose">Model Selection</Label>
-                      <Input type="select" name="model_choose" id="model_choose">
+                      <Input type="select" name="model_choose" id="model_choose"
+                                                  onChange={(e) => {this.handleModelSelection(e)}}>
                         <option value="1">Xception</option>
                         <option value="2">Inceptionv3</option>
                         <option value="3">InceptionResNetv2</option>
@@ -198,7 +205,7 @@ class Easy_Tabbed_Forms extends Component {
 
               </CardBlock>
               <CardFooter>
-                <Button type="submit" size="sm" color="success" onClick={(input) => {this.submit_form(input)}}><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                <Button type="submit" size="sm" color="success" onClick={(e) => {this.submit_form(e, this)}}><i className="fa fa-dot-circle-o"></i> Submit</Button>
                 <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>
@@ -206,10 +213,6 @@ class Easy_Tabbed_Forms extends Component {
         </Row>
       </div>
     )
-  }
-
-  componentDidMount() {
-
   }
 
 
