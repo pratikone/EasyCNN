@@ -24,6 +24,7 @@ import {
 } from "reactstrap";
 
 import Easy_Forms from '../../views/Components/Easy_Forms/';
+import Easy_Tabs from '../../views/Components/Easy_Tabs/';
 
 const brandPrimary = '#20a8d8';
 const brandSuccess = '#4dbd74';
@@ -434,9 +435,16 @@ class Dashboard extends Component {
 
     return (
       <div className="animated fadeIn">
+        
+        <Row>
+          <Easy_Tabs/>
+        </Row>
+
         <Row>
           <Easy_Forms/>
         </Row>
+
+
         <Row>
           <Col xs="12" sm="6" lg="3">
             <Card className="text-white bg-primary">

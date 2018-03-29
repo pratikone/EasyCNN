@@ -35,10 +35,11 @@ class Easy_Forms extends Component {
           <Col sm="60">
             <Card>
               <CardHeader>
-                <strong>Company</strong>
-                <small> Form</small>
+               <strong>Company</strong>
+                <small> Form</small> 
               </CardHeader>
               <CardBlock className="card-body">
+                
                 <FormGroup>
                   <Label htmlFor="company">Company</Label>
                   <Input type="text" id="company" placeholder="Enter your company name"/>
