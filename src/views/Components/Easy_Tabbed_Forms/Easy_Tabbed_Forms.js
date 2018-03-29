@@ -162,6 +162,38 @@ class Easy_Tabbed_Forms extends Component {
       </div>
     )
   }
+
+  componentDidMount() {
+    fetch("http://localhost:5000/ajax_test")
+      .then(res => res)
+      .then(
+        (result) => {
+          // this.setState({
+          //   isLoaded: true,
+          //   items: result.items
+          // });
+          console.log("ajax works");
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          // this.setState({
+          //   isLoaded: true,
+          //   error
+          // });
+
+          console.log("ajax has errors " + error);
+        }
+      )
+  }
+
+
+
+
+
+
+
 }
 
 export default Easy_Tabbed_Forms;
