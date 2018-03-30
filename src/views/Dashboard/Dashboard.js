@@ -24,6 +24,7 @@ import {
 } from "reactstrap";
 
 import Easy_Tabbed_Forms from '../../views/Components/Easy_Tabbed_Forms/';
+import Easy_Charts from '../../views/Components/Easy_Charts/';
 
 const brandPrimary = '#20a8d8';
 const brandSuccess = '#4dbd74';
@@ -568,9 +569,9 @@ class Dashboard extends Component {
                     </ButtonToolbar>
                   </Col>
                 </Row>
-                <div className="chart-wrapper" style={{height: 300 + 'px', marginTop: 40 + 'px'}}>
-                  <Line data={mainChart} options={mainChartOpts} height={300}/>
-                </div>
+
+                <Easy_Charts />
+
               </CardBlock>
               <CardFooter>
                 <ul>
@@ -604,73 +605,6 @@ class Dashboard extends Component {
             </Card>
           </Col>
         </Row>
-
-        <Row>
-          <Col>
-            <Card>
-              <CardHeader>
-                <i className="fa fa-align-justify"></i> Combined All Table
-              </CardHeader>
-              <CardBlock className="card-body">
-                <Table hover responsive className="table-outline mb-0 d-none d-sm-table">
-                  <thead className="thead-default">
-                  <tr>
-                    <th>Username</th>
-                    <th>Date registered</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>Vishnu Serghei</td>
-                    <td>2012/01/01</td>
-                    <td>Member</td>
-                    <td>
-                      <Badge color="success">Active</Badge>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Zbyněk Phoibos</td>
-                    <td>2012/02/01</td>
-                    <td>Staff</td>
-                    <td>
-                      <Badge color="danger">Banned</Badge>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Einar Randall</td>
-                    <td>2012/02/01</td>
-                    <td>Admin</td>
-                    <td>
-                      <Badge color="secondary">Inactive</Badge>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Félix Troels</td>
-                    <td>2012/03/01</td>
-                    <td>Member</td>
-                    <td>
-                      <Badge color="warning">Pending</Badge>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Aulus Agmundr</td>
-                    <td>2012/01/21</td>
-                    <td>Staff</td>
-                    <td>
-                      <Badge color="success">Active</Badge>
-                    </td>
-                  </tr>
-                  </tbody>
-                </Table>
-              </CardBlock>
-            </Card>
-          </Col>
-        </Row>
-
-
-
       </div>
     )
   }
