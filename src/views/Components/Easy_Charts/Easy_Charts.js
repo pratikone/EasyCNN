@@ -4,8 +4,6 @@ import {Line} from "react-chartjs-2";
 class Easy_Charts extends Component {
     constructor(props) {
         super(props);
-
-
         const brandPrimary = '#20a8d8';
         const brandSuccess = '#4dbd74';
         const brandInfo = '#63c2de';
@@ -34,23 +32,23 @@ class Easy_Charts extends Component {
               borderWidth: 2,
               data: data1
             },
-            {
-              label: 'My Second dataset',
-              backgroundColor: 'transparent',
-              borderColor: brandSuccess,
-              pointHoverBackgroundColor: '#fff',
-              borderWidth: 2,
-              data: data2
-            },
-            {
-              label: 'My Third dataset',
-              backgroundColor: 'transparent',
-              borderColor: brandDanger,
-              pointHoverBackgroundColor: '#fff',
-              borderWidth: 1,
-              borderDash: [8, 5],
-              data: data3
-            }
+            // {
+            //   label: 'My Second dataset',
+            //   backgroundColor: 'transparent',
+            //   borderColor: brandSuccess,
+            //   pointHoverBackgroundColor: '#fff',
+            //   borderWidth: 2,
+            //   data: data2
+            // },
+            // {
+            //   label: 'My Third dataset',
+            //   backgroundColor: 'transparent',
+            //   borderColor: brandDanger,
+            //   pointHoverBackgroundColor: '#fff',
+            //   borderWidth: 1,
+            //   borderDash: [8, 5],
+            //   data: data3
+            // }
           ]
         }
 
@@ -113,10 +111,36 @@ class Easy_Charts extends Component {
     }
 
 
+
+    componentDidMount() {
+        this.timer = setInterval(
+          () => this.increment(),
+          5000
+        )
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer)
+    }
+
+
+    increment() {
+        let datacopy = Object.assign({}, this.state.mainChart);
+        var new_data = [];
+        for (var i = 0; i <= 27; i++) {
+          new_data.push(this.random(80, 100));
+        }
+
+
+        datacopy.datasets[0].data = new_data;
+        console.log(datacopy.datasets[0].data);
+        this.setState({mainChart: datacopy});
+    }
+
     render() {
         return (
-            <div className="chart-wrapper" style={{height: 300 + 'px', marginTop: 40 + 'px'}}>
-                  <Line data={this.state.mainChart} options={this.state.mainChartOpts} height={300}/>
+            <div className="chart-wrapper" style={{height: 300 + 'px', marginTop: 40 + 'px'}} >
+                  <Line ref='doggy' data={this.state.mainChart} options={this.state.mainChartOpts} height={300}/>
             </div>
         );
     }
