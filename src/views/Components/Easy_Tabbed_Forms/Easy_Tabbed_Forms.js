@@ -40,7 +40,8 @@ class Easy_Tabbed_Forms extends Component {
       layers: '0',
       dimensions_X: '0',
       dimensions_Y: '0',
-      model_selected: 'None'
+      model_selected: '1',
+      models: [ 'None', 'Xception', 'Inceptionv3', 'InceptionResNetv2', 'DenseNet121', 'DenseNet169', 'DenseNet201'  ],
     };
   }
 
@@ -57,15 +58,24 @@ class Easy_Tabbed_Forms extends Component {
   handleLayerChange(e) {this.setState({layers: e.target.value});}
   handleDimensionX(e) {this.setState({dimensions_X: e.target.value}); }
   handleDimensionY(e) {this.setState({dimensions_Y: e.target.value}); }
-  handleModelSelection(e) {this.setState({model_selected: e.target.value}); }
+  handleModelSelection(e) { this.setState({model_selected: this.state.models[e.target.value] }); }
 
 
 
   submit_form( e, component ){
     console.log(component.state.layers);
+    var return_obj = {}
+    return_obj.layers = component.state.layers;
+    if (component.state.activeTab == '2'){
+      return_obj.dimensions_X = component.state.dimensions_X;
+      return_obj.dimensions_Y = component.state.dimensions_Y ;
+      return_obj.model_selected = component.state.model_selected;
+    }
+    var return_value = JSON.stringify( return_obj );
+
     fetch("http://localhost:5000/input_test", {
       method: 'POST', // or 'PUT'
-      body: JSON.stringify( { layers: component.state.layers  } ), 
+      body: return_value, 
       headers: new Headers({
       'Content-Type': 'application/json'
       })
@@ -152,32 +162,32 @@ class Easy_Tabbed_Forms extends Component {
               <TabPane tabId="2" >
                   <FormGroup>
                     <Label htmlFor="layer_count_2"></Label>No. of layers
-                    <Input type="text" id="layer_count_2" value={this.state.layers} onChange={(e) => {this.handleLayerChange(e)}}
+                    <Input type="text" id="layer_count_2" value={this.state.layers} onChange={(e) => {this.handleLayerChange(e); }}
                               placeholder="Enter the number of layers for CNN model"/>
                   </FormGroup>
                   <Col xs="8">
                     <FormGroup>
                       <Label htmlFor="dimensions_X">Dimensions</Label>
-                      <Input type="text" id="dimensions_X" value={this.state.dimensions_X} onChange={(e) => {this.handleDimensionX(e)}}
+                      <Input type="text" id="dimensions_X" value={this.state.dimensions_X} onChange={(e) => {this.handleDimensionX(e); }}
                                                  placeholder="0"/>
                     </FormGroup>
                   </Col>
                   <Col xs="8">
                     <FormGroup>
-                    <Input type="text" id="dimensions_Y"  value={this.state.dimensions_Y} onChange={(e) => {this.handleDimensionY(e)}}
+                    <Input type="text" id="dimensions_Y"  value={this.state.dimensions_Y} onChange={(e) => {this.handleDimensionY(e); }}
                                             placeholder="0"/>
                     </FormGroup>
                   </Col>
                     <FormGroup>
                       <Label htmlFor="model_choose">Model Selection</Label>
                       <Input type="select" name="model_choose" id="model_choose"
-                                                  onChange={(e) => {this.handleModelSelection(e)}}>
-                        <option value="1">Xception</option>
-                        <option value="2">Inceptionv3</option>
-                        <option value="3">InceptionResNetv2</option>
-                        <option value="4">DenseNet121</option>
-                        <option value="5">DenseNet169</option>
-                        <option value="6">DenseNet201</option>
+                                                  onChange={(e) => {this.handleModelSelection(e); }}>
+                        <option value="1">{ this.state.models[1] }</option>
+                        <option value="2">{ this.state.models[2] }</option>
+                        <option value="3">{ this.state.models[3] }</option>
+                        <option value="4">{ this.state.models[4] }</option>
+                        <option value="5">{ this.state.models[5] }</option>
+                        <option value="6">{ this.state.models[6] }</option>
                       </Input>
                     </FormGroup>
                     <FileUpload/>
