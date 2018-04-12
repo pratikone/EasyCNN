@@ -1,0 +1,1 @@
+{"test_dir": "test", "batch_size": 64, "img_width": 221, "img_height": 221, "workers": 8, "model_file": "best_model.h5"}
