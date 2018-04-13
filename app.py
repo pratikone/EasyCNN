@@ -47,12 +47,12 @@ def process_and_write_json_to_file( json_dict ) :
     json_dict["img_height"] = 221
     json_dict["loss"] = "categorical_crossentropy"
     json_dict["train_threshold"] = 0
-    json_dict["phase_optimizer"] = "adam"
+    json_dict["phase1_optimizer"] = "adam"
 
-    json_dict["dropout_list"] = json_dict["dropout_list"].strip().split(",")
-    json_dict["dense_list"] = json_dict["dense_list"].strip().split(",")
+    json_dict["dropout_list"] = [ float(x) for x in json_dict["dropout_list"].strip().split(",")]
+    json_dict["dense_list"] = [ float(x) for x in json_dict["dense_list"].strip().split(",")]
 
-    with open('params2.json', 'w') as outfile:
+    with open('params_manual.json', 'w') as outfile:
         json.dump( json_dict, outfile)
 
 

@@ -37,15 +37,15 @@ class Easy_Tabbed_Forms extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: '2',
-      batch_size: '0',
-      epoch_init: '0',
-      epoch_final: '0',
-      workers: '0',
-      steps_per_epoch: '0',
-      dropout_list: '0',
-      dense_list: '0',
+      batch_size: 0,
+      initial_epoch: 0,
+      final_epoch: 0,
+      workers: 0,
+      step_per_epoch: 0,
+      dropout_list: 0,
+      dense_list: 0,
       metrics: 'top_k_categorical_accuracy',
-      model_selected: 'Xception',
+      model_list: 'Xception',
       models: [ 'Xception', 'Inceptionv3', 'InceptionResNetv2', 'DenseNet121', 'DenseNet169', 'DenseNet201'  ],
     };
 
@@ -80,15 +80,15 @@ class Easy_Tabbed_Forms extends Component {
 
 
 
-  handleBatchSizeChange(e) {this.setState({batch_size: e.target.value});}
+  handleBatchSizeChange(e) {this.setState({batch_size: Number(e.target.value) });}
  
-  handleEpochInitChange(e) {this.setState({epoch_init: e.target.value}); }
+  handleEpochInitChange(e) {this.setState({initial_epoch: Number(e.target.value) }); }
 
-  handleEpochFinalChange(e) {this.setState({epoch_final: e.target.value}); }
+  handleEpochFinalChange(e) {this.setState({final_epoch: Number(e.target.value) }); }
 
-  handleWorkersChange(e) {this.setState({workers: e.target.value}); }
+  handleWorkersChange(e) {this.setState({workers: Number(e.target.value) }); }
 
-  handleStepsInEpochChange(e) {this.setState({steps_per_epoch: e.target.value}); }
+  handleStepsInEpochChange(e) {this.setState({step_per_epoch: Number(e.target.value) }); }
 
   handleDropoutListChange(e) {this.setState({dropout_list: e.target.value}); }
 
@@ -102,25 +102,24 @@ class Easy_Tabbed_Forms extends Component {
                                 this.setState({metrics: "accuracy"});
                              }
 
-  handleModelSelection(e) { this.setState({model_selected: this.state.models[e.target.value] }); }
+  handleModelSelection(e) { this.setState({model_list: this.state.models[e.target.value] }); }
 
 
 
   submit_form( e, component ){
-    console.log(component.state.layers);
     var return_obj = {}
     return_obj.layers = component.state.layers;
     if (component.state.activeTab == '2'){
       return_obj.batch_size = component.state.batch_size;
       
-      return_obj.epoch_init = component.state.epoch_init;
-      return_obj.epoch_final = component.state.epoch_final;
+      return_obj.initial_epoch = component.state.initial_epoch;
+      return_obj.final_epoch = component.state.final_epoch;
       return_obj.workers = component.state.workers;
-      return_obj.steps_per_epoch = component.state.steps_per_epoch;
+      return_obj.step_per_epoch = component.state.step_per_epoch;
       return_obj.dropout_list = component.state.dropout_list;
       return_obj.dense_list = component.state.dense_list;
-      return_obj.metrics = component.state.metrics;
-      return_obj.model_selected = component.state.model_selected;
+      return_obj.metrics = [component.state.metrics];
+      return_obj.model_list = [component.state.model_list];
 
     }
     var return_value = JSON.stringify( return_obj );
@@ -209,13 +208,13 @@ class Easy_Tabbed_Forms extends Component {
                                        placeholder="Set workers count" callback={this.handleWorkersChange} />
                   </Col>
                   <Col xs="8">
-                      <Easy_Text_Form id="epoch_init" value={this.state.epoch_init}  label="Initial Epoch"
+                      <Easy_Text_Form id="initial_epoch" value={this.state.initial_epoch}  label="Initial Epoch"
                                        placeholder="Set Initial Epoch" callback={this.handleEpochInitChange} />
-                      <Easy_Text_Form id="epoch_final" value={this.state.epoch_final}  label="Final Epoch"
+                      <Easy_Text_Form id="final_epoch" value={this.state.final_epoch}  label="Final Epoch"
                                        placeholder="Set Final Epoch" callback={this.handleEpochFinalChange} />
                   </Col>
                   <Col xs="8">
-                    <Easy_Text_Form id="steps_per_epoch" value={this.state.steps_per_epoch}  label="Steps per epoch"
+                    <Easy_Text_Form id="step_per_epoch" value={this.state.step_per_epoch}  label="Steps per epoch"
                                        placeholder="Determine steps in every epoch" callback={this.handleStepsInEpochChange} />
                   </Col>
                   <Col xs="8">
