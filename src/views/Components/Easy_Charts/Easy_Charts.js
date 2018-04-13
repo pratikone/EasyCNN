@@ -22,7 +22,7 @@ class Easy_Charts extends Component {
         }
 
         const mainChart = {
-          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'],
+          labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
           datasets: [
             {
               label: 'My First dataset',

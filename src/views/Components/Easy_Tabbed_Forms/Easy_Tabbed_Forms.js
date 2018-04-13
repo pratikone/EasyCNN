@@ -26,7 +26,7 @@ import {Badge, TabContent, TabPane, Nav, NavItem, NavLink} from "reactstrap";
 import classnames from "classnames";
 
 import FileUpload from '../FileUpload/FileUpload.js';
-
+import Easy_Text_Form from '../Easy_Text_Form/';
 
 
 class Easy_Tabbed_Forms extends Component {
@@ -36,13 +36,38 @@ class Easy_Tabbed_Forms extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1',
-      layers: '0',
-      dimensions_X: '0',
-      dimensions_Y: '0',
-      model_selected: '1',
-      models: [ 'None', 'Xception', 'Inceptionv3', 'InceptionResNetv2', 'DenseNet121', 'DenseNet169', 'DenseNet201'  ],
+      activeTab: '2',
+      batch_size: '0',
+      epoch_init: '0',
+      epoch_final: '0',
+      workers: '0',
+      steps_per_epoch: '0',
+      dropout_list: '0',
+      dense_list: '0',
+      metrics: 'top_k_categorical_accuracy',
+      model_selected: 'Xception',
+      models: [ 'Xception', 'Inceptionv3', 'InceptionResNetv2', 'DenseNet121', 'DenseNet169', 'DenseNet201'  ],
     };
+
+    this.handleBatchSizeChange = this.handleBatchSizeChange.bind(this);
+
+    this.handleEpochInitChange = this.handleEpochInitChange.bind(this);
+
+    this.handleEpochFinalChange = this.handleEpochFinalChange.bind(this);
+    
+    this.handleWorkersChange = this.handleWorkersChange.bind(this);
+    
+    this.handleStepsInEpochChange = this.handleStepsInEpochChange.bind(this);
+    
+    this.handleDropoutListChange = this.handleDropoutListChange.bind(this);
+    
+    this.handleDenseListChange = this.handleDenseListChange.bind(this);
+    
+    this.handleStepsInEpochChange = this.handleStepsInEpochChange.bind(this);
+    
+    this.handleStepsInEpochChange = this.handleStepsInEpochChange.bind(this);
+
+
   }
 
   toggle(tab) {
@@ -55,9 +80,28 @@ class Easy_Tabbed_Forms extends Component {
 
 
 
-  handleLayerChange(e) {this.setState({layers: e.target.value});}
-  handleDimensionX(e) {this.setState({dimensions_X: e.target.value}); }
-  handleDimensionY(e) {this.setState({dimensions_Y: e.target.value}); }
+  handleBatchSizeChange(e) {this.setState({batch_size: e.target.value});}
+ 
+  handleEpochInitChange(e) {this.setState({epoch_init: e.target.value}); }
+
+  handleEpochFinalChange(e) {this.setState({epoch_final: e.target.value}); }
+
+  handleWorkersChange(e) {this.setState({workers: e.target.value}); }
+
+  handleStepsInEpochChange(e) {this.setState({steps_per_epoch: e.target.value}); }
+
+  handleDropoutListChange(e) {this.setState({dropout_list: e.target.value}); }
+
+  handleDenseListChange(e) {this.setState({dense_list: e.target.value}); }
+
+  handleRadioButtonChange(e) { 
+                              var radio_selection = e.target.value;
+                              if ( radio_selection == "topk" )
+                                this.setState({metrics: "top_k_categorical_accuracy"});
+                              else
+                                this.setState({metrics: "accuracy"});
+                             }
+
   handleModelSelection(e) { this.setState({model_selected: this.state.models[e.target.value] }); }
 
 
@@ -67,9 +111,17 @@ class Easy_Tabbed_Forms extends Component {
     var return_obj = {}
     return_obj.layers = component.state.layers;
     if (component.state.activeTab == '2'){
-      return_obj.dimensions_X = component.state.dimensions_X;
-      return_obj.dimensions_Y = component.state.dimensions_Y ;
+      return_obj.batch_size = component.state.batch_size;
+      
+      return_obj.epoch_init = component.state.epoch_init;
+      return_obj.epoch_final = component.state.epoch_final;
+      return_obj.workers = component.state.workers;
+      return_obj.steps_per_epoch = component.state.steps_per_epoch;
+      return_obj.dropout_list = component.state.dropout_list;
+      return_obj.dense_list = component.state.dense_list;
+      return_obj.metrics = component.state.metrics;
       return_obj.model_selected = component.state.model_selected;
+
     }
     var return_value = JSON.stringify( return_obj );
 
@@ -83,20 +135,14 @@ class Easy_Tabbed_Forms extends Component {
       .then(res => res)
       .then(
         (result) => {
-          // this.setState({
-          //   isLoaded: true,
-          //   items: result.items
-          // });
-          console.log("ajax works");
+          if (result.status !== 200) {
+              console.log('Looks like there was a problem. Status Code: ' +
+                result.status);
+              return;
+          }
+          console.log("Data sent to backend");
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
-          // this.setState({
-          //   isLoaded: true,
-          //   error
-          // });
 
           console.log("ajax has errors " + error);
         }
@@ -149,35 +195,51 @@ class Easy_Tabbed_Forms extends Component {
               
               <TabPane tabId="1">
                <Form action="" method="post" className="form_1">
-                <FormGroup>
-                  <Label htmlFor="layer_count_1">No. of layers</Label>
-                  <Input type="text" id="layer_count_1" value={this.state.layers} onChange={(e) => { this.handleLayerChange(e); }}
-                              placeholder="Enter the number of layers for CNN model"/>
-                </FormGroup>
-
                 <FileUpload/>
                 </Form>
 
               </TabPane>
               <TabPane tabId="2" >
-                  <FormGroup>
-                    <Label htmlFor="layer_count_2"></Label>No. of layers
-                    <Input type="text" id="layer_count_2" value={this.state.layers} onChange={(e) => {this.handleLayerChange(e); }}
-                              placeholder="Enter the number of layers for CNN model"/>
-                  </FormGroup>
                   <Col xs="8">
-                    <FormGroup>
-                      <Label htmlFor="dimensions_X">Dimensions</Label>
-                      <Input type="text" id="dimensions_X" value={this.state.dimensions_X} onChange={(e) => {this.handleDimensionX(e); }}
-                                                 placeholder="0"/>
-                    </FormGroup>
+                    <Easy_Text_Form id="batch_size" value={this.state.batch_size}  label="Batch Size"
+                                       placeholder="Set Batch size" callback={this.handleBatchSizeChange} />
                   </Col>
                   <Col xs="8">
-                    <FormGroup>
-                    <Input type="text" id="dimensions_Y"  value={this.state.dimensions_Y} onChange={(e) => {this.handleDimensionY(e); }}
-                                            placeholder="0"/>
+                    <Easy_Text_Form id="workers" value={this.state.workers}  label="Workers"
+                                       placeholder="Set workers count" callback={this.handleWorkersChange} />
+                  </Col>
+                  <Col xs="8">
+                      <Easy_Text_Form id="epoch_init" value={this.state.epoch_init}  label="Initial Epoch"
+                                       placeholder="Set Initial Epoch" callback={this.handleEpochInitChange} />
+                      <Easy_Text_Form id="epoch_final" value={this.state.epoch_final}  label="Final Epoch"
+                                       placeholder="Set Final Epoch" callback={this.handleEpochFinalChange} />
+                  </Col>
+                  <Col xs="8">
+                    <Easy_Text_Form id="steps_per_epoch" value={this.state.steps_per_epoch}  label="Steps per epoch"
+                                       placeholder="Determine steps in every epoch" callback={this.handleStepsInEpochChange} />
+                  </Col>
+                  <Col xs="8">
+                    <FormGroup check className="form-check-inline">
+                      <Label check htmlFor="inline-radio1">
+                        <Input type="radio" id="inline-radio1" name="inline-radios" checked={true} value="topk" onChange={(e) => { this.handleRadioButtonChange(e); }}/>  top_k_categorical_accuracy
+                      </Label>
+                      <Label check htmlFor="inline-radio2">
+                        <Input type="radio" id="inline-radio2" name="inline-radios" value="accuracy" onChange={(e) => { this.handleRadioButtonChange(e); }} />  accuracy
+                      </Label>
                     </FormGroup>
                   </Col>
+
+                  <Col xs="8">
+                    <Easy_Text_Form id="dropout_list"  value={this.state.dropout_list} label="Dropout list"
+                                       placeholder="Set comma separated dropout list" callback={this.handleDropoutListChange} />
+                  </Col>
+
+                  <Col xs="8">
+                    <Easy_Text_Form id="dense_list" value={this.state.dense_list} label="Dense list"
+                                       placeholder="Set comma separated dense list" callback={this.handleDenseListChange} />
+                  </Col>                  
+
+                  <Col xs="8">
                     <FormGroup>
                       <Label htmlFor="model_choose">Model Selection</Label>
                       <Input type="select" name="model_choose" id="model_choose"
@@ -190,7 +252,10 @@ class Easy_Tabbed_Forms extends Component {
                         <option value="6">{ this.state.models[6] }</option>
                       </Input>
                     </FormGroup>
-                    <FileUpload/>
+                  </Col>
+
+
+                  <FileUpload/>
 
               </TabPane>
               <TabPane tabId="3">
