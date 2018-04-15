@@ -2,8 +2,11 @@ import os
 import random
 import json
 from pprint import pprint
+import threading
 from serverutil import *
 from flask import Flask, render_template, send_from_directory, request, jsonify
+from run_notebook import run_notebook
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -28,6 +31,7 @@ def input_form_data():
     pprint (response)
     process_and_write_json_to_file( response )
 
+
    
     return ""#process_input( request )
 
@@ -50,10 +54,13 @@ def process_and_write_json_to_file( json_dict ) :
     json_dict["phase1_optimizer"] = "adam"
 
     json_dict["dropout_list"] = [ float(x) for x in json_dict["dropout_list"].strip().split(",")]
-    json_dict["dense_list"] = [ float(x) for x in json_dict["dense_list"].strip().split(",")]
+    json_dict["dense_list"] = [ int(x) for x in json_dict["dense_list"].strip().split(",")]
 
     with open('params_manual.json', 'w') as outfile:
         json.dump( json_dict, outfile)
+
+    pprint("Launching new thread for CNN")
+    threading.Thread(name='jupyter_notebook', target=run_notebook).start()
 
 
 

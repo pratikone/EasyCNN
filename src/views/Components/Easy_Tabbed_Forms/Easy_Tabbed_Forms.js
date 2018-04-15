@@ -44,9 +44,9 @@ class Easy_Tabbed_Forms extends Component {
       step_per_epoch: 0,
       dropout_list: 0,
       dense_list: 0,
-      metrics: 'top_k_categorical_accuracy',
-      model_list: 'Xception',
-      models: [ 'Xception', 'Inceptionv3', 'InceptionResNetv2', 'DenseNet121', 'DenseNet169', 'DenseNet201'  ],
+      metrics: ['top_k_categorical_accuracy'],  
+      model_list: ['xception'],
+      models: [ 'xception', 'Inceptionv3', 'InceptionResNetv2', 'DenseNet121', 'DenseNet169', 'DenseNet201'  ],
     };
 
     this.handleBatchSizeChange = this.handleBatchSizeChange.bind(this);
@@ -97,12 +97,12 @@ class Easy_Tabbed_Forms extends Component {
   handleRadioButtonChange(e) { 
                               var radio_selection = e.target.value;
                               if ( radio_selection == "topk" )
-                                this.setState({metrics: "top_k_categorical_accuracy"});
+                                this.setState({metrics: ["top_k_categorical_accuracy"]});
                               else
-                                this.setState({metrics: "accuracy"});
+                                this.setState({metrics: ["accuracy"]});
                              }
 
-  handleModelSelection(e) { this.setState({model_list: this.state.models[e.target.value] }); }
+  handleModelSelection(e) { this.setState({model_list: [ this.state.models[e.target.value] ]}); }
 
 
 
@@ -118,8 +118,8 @@ class Easy_Tabbed_Forms extends Component {
       return_obj.step_per_epoch = component.state.step_per_epoch;
       return_obj.dropout_list = component.state.dropout_list;
       return_obj.dense_list = component.state.dense_list;
-      return_obj.metrics = [component.state.metrics];
-      return_obj.model_list = [component.state.model_list];
+      return_obj.metrics = component.state.metrics;
+      return_obj.model_list = component.state.model_list;
 
     }
     var return_value = JSON.stringify( return_obj );
@@ -243,12 +243,12 @@ class Easy_Tabbed_Forms extends Component {
                       <Label htmlFor="model_choose">Model Selection</Label>
                       <Input type="select" name="model_choose" id="model_choose"
                                                   onChange={(e) => {this.handleModelSelection(e); }}>
-                        <option value="1">{ this.state.models[1] }</option>
-                        <option value="2">{ this.state.models[2] }</option>
-                        <option value="3">{ this.state.models[3] }</option>
-                        <option value="4">{ this.state.models[4] }</option>
-                        <option value="5">{ this.state.models[5] }</option>
-                        <option value="6">{ this.state.models[6] }</option>
+                        <option value="1">{ this.state.models[0] }</option>
+                        <option value="2">{ this.state.models[1] }</option>
+                        <option value="3">{ this.state.models[2] }</option>
+                        <option value="4">{ this.state.models[3] }</option>
+                        <option value="5">{ this.state.models[4] }</option>
+                        <option value="6">{ this.state.models[5] }</option>
                       </Input>
                     </FormGroup>
                   </Col>
