@@ -5,7 +5,7 @@ from pprint import pprint
 import threading
 from serverutil import *
 from flask import Flask, render_template, send_from_directory, request, jsonify
-from run_notebook import run_notebook
+from run_notebook import run_notebook, process_CNN_results
 
 app = Flask(__name__)
 
@@ -38,9 +38,11 @@ def input_form_data():
 @app.route('/update_chart_data')
 def update_chart_data():
     # print("came to update chart data")
-    new_data = []
-    for i in range(27) :
-        new_data.append( random.randint ( 80, 200) );
+    # new_data = []
+    # for i in range(27) :
+    #     new_data.append( random.randint ( 80, 200) );
+    new_data = process_CNN_results()
+    
     return jsonify( { 'data' : new_data } ) 
 
 

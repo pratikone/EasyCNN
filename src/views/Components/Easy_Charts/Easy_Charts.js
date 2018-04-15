@@ -57,6 +57,7 @@ class Easy_Charts extends Component {
           legend: {
             display: false
           },
+          /*
           scales: {
             xAxes: [{
               gridLines: {
@@ -68,10 +69,11 @@ class Easy_Charts extends Component {
                 beginAtZero: true,
                 maxTicksLimit: 5,
                 stepSize: Math.ceil(250 / 5),
-                max: 250
+                max: 10
               }
             }]
           },
+          */
           elements: {
             point: {
               radius: 0,
@@ -115,7 +117,7 @@ class Easy_Charts extends Component {
     componentDidMount() {
         this.timer = setInterval(
           () => this.check_for_updates(),
-          5000
+          3*5000
         )
     }
 
@@ -128,6 +130,8 @@ class Easy_Charts extends Component {
     update ( new_data, that ) {
         let datacopy = Object.assign({}, that.state.mainChart);
         datacopy.datasets[0].data = new_data;
+
+
         //console.log(datacopy.datasets[0].data);
         that.setState({mainChart: datacopy});
 
@@ -135,7 +139,7 @@ class Easy_Charts extends Component {
 
     check_for_updates() {
       var that = this;
-      fetch('http://localhost:5000/update_chart_data')
+      fetch( this.props.url )   //url
         .then(
           function(response) {
             if (response.status !== 200) {
