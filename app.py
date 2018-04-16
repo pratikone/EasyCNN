@@ -5,7 +5,7 @@ from pprint import pprint
 import threading
 from serverutil import *
 from flask import Flask, render_template, send_from_directory, request, jsonify
-from run_notebook import run_notebook, process_CNN_results
+from run_notebook import *
 
 app = Flask(__name__)
 
@@ -33,17 +33,27 @@ def input_form_data():
 
 
    
-    return ""#process_input( request )
+    return "Successfully submitted CNN job request"
 
 @app.route('/update_chart_data')
 def update_chart_data():
-    # print("came to update chart data")
-    # new_data = []
-    # for i in range(27) :
-    #     new_data.append( random.randint ( 80, 200) );
-    new_data = process_CNN_results()
-    
+    new_data = process_CNN_batch_results()
+    if new_data is None :
+        return jsonify( { } ) 
     return jsonify( { 'data' : new_data } ) 
+
+
+@app.route('/update_small_chart_data/<chart_type>')
+def update_small_chart_data( chart_type ):
+    chart_type = chart_type.strip()  #cleanup
+    new_data = process_CNN_epoch_results( chart_type )
+    if new_data is None :
+        return jsonify( { } ) 
+
+    return jsonify( { 'data' : new_data } ) 
+
+
+
 
 
 def process_and_write_json_to_file( json_dict ) :

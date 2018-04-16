@@ -27,7 +27,7 @@ def run_notebook() :
     finally :
         pprint("***** Ending execution of notebook")
 
-def process_CNN_results():
+def process_CNN_batch_results():
     FILE_PATH = "history/xception/dense_512_dropout_0.1"
     FILE_NAME = "batch.json"
     my_file = Path( FILE_PATH + "/" + FILE_NAME )
@@ -38,6 +38,20 @@ def process_CNN_results():
     
     return None        
 
+
+def process_CNN_epoch_results( chart_type ):
+    FILE_PATH = "history/xception/dense_512_dropout_0.1"
+    FILE_NAME = "epoch.json"
+
+    my_file = Path( FILE_PATH + "/" + FILE_NAME )
+    
+    if my_file.is_file():
+        data = json.load( open( my_file ) )
+        if None in data[chart_type] :  #  null is parsed as None in Python, smart boy/girl
+            return None
+        return data[chart_type]
+    
+    return None        
 
 
 

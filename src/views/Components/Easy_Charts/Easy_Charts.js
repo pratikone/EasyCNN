@@ -130,8 +130,6 @@ class Easy_Charts extends Component {
     update ( new_data, that ) {
         let datacopy = Object.assign({}, that.state.mainChart);
         datacopy.datasets[0].data = new_data;
-
-
         //console.log(datacopy.datasets[0].data);
         that.setState({mainChart: datacopy});
 
@@ -151,8 +149,16 @@ class Easy_Charts extends Component {
 
             // Examine the text in the response
             response.json().then(function(data) {
-              console.log(data.data);
-              that.update( data.data, that );
+              // console.log("@@" + data);
+              if ( Object.keys(data).length === 0 && data.constructor === Object ){  //empty object sent by server
+                that.update( [0], that ); 
+                console.log("returned value is empty");
+              }
+              else{  //when server has sent non-empty data
+                console.log(data.data);
+                that.update( [0].concat(data.data), that );     // the graph ignores the first entry of array, hence adding 0 to the front
+              }
+
             });
           }
         )

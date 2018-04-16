@@ -10,6 +10,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Card,
+  CardColumns,
   CardHeader,
   CardBlock,
   CardFooter,
@@ -32,7 +33,9 @@ class Dashboard extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      dropdownOpen: false
+      dropdownOpen: false,
+      small_charts: [ "val_top_k_categorical_accuracy",  "val_loss", "loss", "top_k_categorical_accuracy", "acc", "val_acc" ],
+      colors: ["bg-primary", "bg-success", "bg-warning", "bg-info", "bg-danger"],
     };
   }
 
@@ -61,12 +64,36 @@ class Dashboard extends Component {
                     <div className="small text-muted">Loss value</div>
                   </Col>
                 </Row>
-
                 <Easy_Charts url='http://localhost:5000/update_chart_data'/>
-
               </CardBlock>
             </Card>
           </Col>
+        </Row>
+        <Row>
+          <CardColumns className="cols-2">
+            {this.state.small_charts.map( ( chart_type ) => {    //looping cards to create multiple small graphs
+            return(
+              <Card>
+               <CardHeader className={  this.state.colors[ Math.floor(Math.random() * this.state.colors.length) ] } >
+                
+              </CardHeader>
+                <CardBlock className="card-body">
+                  <Row>
+                    <Col sm="8">
+                      <CardTitle className="mb-2">{chart_type}</CardTitle>
+                      <div className="small text-muted">Value</div>
+                    </Col>
+                  </Row>
+                  <Easy_Charts url={'http://localhost:5000/update_small_chart_data/' + chart_type}   />
+                </CardBlock>
+              </Card>
+            )
+
+            })}
+
+          </CardColumns>          
+
+
         </Row>
       </div>
     )
