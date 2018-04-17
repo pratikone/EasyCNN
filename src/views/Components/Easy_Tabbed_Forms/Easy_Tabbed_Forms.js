@@ -95,11 +95,28 @@ class Easy_Tabbed_Forms extends Component {
   handleDenseListChange(e) {this.setState({dense_list: e.target.value}); }
 
   handleRadioButtonChange(e) { 
+                              var new_metrics = this.state.metrics;
                               var radio_selection = e.target.value;
-                              if ( radio_selection == "topk" )
-                                this.setState({metrics: ["top_k_categorical_accuracy"]});
-                              else
-                                this.setState({metrics: ["accuracy"]});
+                              var checked = e.target.checked;
+                              if ( radio_selection == "topk" ){
+                                if( checked == true){
+                                  new_metrics.push("top_k_categorical_accuracy");
+                                }
+                                else{
+                                  new_metrics = new_metrics.filter(e => e !== "top_k_categorical_accuracy");
+                                }
+                                this.setState({metrics: new_metrics});
+                              }
+                              else{
+                                if( checked == true ){
+                                  new_metrics.push("accuracy");
+                                }
+                                else{
+                                  new_metrics =  new_metrics.filter(e => e !== "accuracy");
+                                }
+                                this.setState({metrics: new_metrics});
+                              }
+                              
                              }
 
   handleModelSelection(e) { this.setState({model_list: [ this.state.models[e.target.value] ]}); }
@@ -218,13 +235,26 @@ class Easy_Tabbed_Forms extends Component {
                                        placeholder="Determine steps in every epoch" callback={this.handleStepsInEpochChange} />
                   </Col>
                   <Col xs="8">
-                    <FormGroup check className="form-check-inline">
-                      <Label check htmlFor="inline-radio1">
-                        <Input type="radio" id="inline-radio1" name="inline-radios" checked={true} value="topk" onChange={(e) => { this.handleRadioButtonChange(e); }}/>  top_k_categorical_accuracy
-                      </Label>
-                      <Label check htmlFor="inline-radio2">
-                        <Input type="radio" id="inline-radio2" name="inline-radios" value="accuracy" onChange={(e) => { this.handleRadioButtonChange(e); }} />  accuracy
-                      </Label>
+                    <FormGroup>
+                    <Row>
+                    <Label check htmlFor="inline-radio1"> top_k_categorical_accuracy &nbsp; </Label>
+                    <Label className="switch switch-3d switch-primary">
+                      <Input type="checkbox"  id="inline-radio1" name="inline-radios1" className="switch-input" defaultChecked
+                                                  value="topk" onChange={(e) => { this.handleRadioButtonChange(e); }}/>
+                      <span className="switch-label"></span>
+                      <span className="switch-handle"></span>
+                    </Label>
+                    </Row>
+                    <Row>
+                    <Label check htmlFor="inline-radio2"> accuracy   &nbsp; &nbsp; </Label>
+                    <Label className="switch switch-3d switch-primary">
+                      <Input type="checkbox"  id="inline-radio2" name="inline-radios2" className="switch-input"
+                                                  value="accuracy" onChange={(e) => { this.handleRadioButtonChange(e); }}/>
+                      <span className="switch-label"></span>
+                      <span className="switch-handle"></span>
+                    </Label>
+                    </Row>
+
                     </FormGroup>
                   </Col>
 
