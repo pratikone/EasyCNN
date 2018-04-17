@@ -4,28 +4,30 @@ import nbformat
 import json
 from pprint import pprint
 from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
-
+import grid_search
 
 def run_notebook() :
     splitter.split_input()
 
     with open("grid_search.ipynb") as f:
         nb = nbformat.read(f, as_version=4)
-    ep = ExecutePreprocessor(timeout=60*60, kernel_name='python3')
     
 
-    try :
-        pprint("***** Starting execution of notebook")
-        ep.preprocess(nb, {'metadata': {}})
-    except CellExecutionError:
-        out = None
-        msg = 'Error executing the notebook "%s".\n\n' % notebook_filename
-        msg += 'See notebook "%s" for the traceback.' % notebook_filename_out
-        pprint(msg)
-    except Exception as e:
-        pprint(e)
-    finally :
-        pprint("***** Ending execution of notebook")
+    grid_search.run()
+
+    #ep = ExecutePreprocessor(timeout=60*60, kernel_name='python3')
+    # try :
+    #     pprint("***** Starting execution of notebook")
+    #     ep.preprocess(nb, {'metadata': {}})
+    # except CellExecutionError:
+    #     out = None
+    #     msg = 'Error executing the notebook "%s".\n\n' % notebook_filename
+    #     msg += 'See notebook "%s" for the traceback.' % notebook_filename_out
+    #     pprint(msg)
+    # except Exception as e:
+    #     pprint(e)
+    # finally :
+    #     pprint("***** Ending execution of notebook")
 
 def process_CNN_batch_results():
     FILE_PATH = "history/xception/dense_512_dropout_0.1"

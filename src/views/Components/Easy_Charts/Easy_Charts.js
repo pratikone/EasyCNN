@@ -17,7 +17,7 @@ class Easy_Charts extends Component {
 
         for (var i = 0; i <= elements; i++) {
           data1.push(this.random(50, 200));
-          data2.push(this.random(80, 100));
+          data2.push(this.random(0.80, 2.100));
           data3.push(65);
         }
 
@@ -128,8 +128,16 @@ class Easy_Charts extends Component {
 
 
     update ( new_data, that ) {
+        var new_labels = [];
+        for(var i=0; i < new_data.length; i++) {
+          new_labels.push( i );
+        }
+        console.log("Length : " + new_data.length)
+
         let datacopy = Object.assign({}, that.state.mainChart);
+        datacopy.labels = new_labels;
         datacopy.datasets[0].data = new_data;
+
         //console.log(datacopy.datasets[0].data);
         that.setState({mainChart: datacopy});
 
@@ -156,7 +164,7 @@ class Easy_Charts extends Component {
               }
               else{  //when server has sent non-empty data
                 console.log(data.data);
-                that.update( [0].concat(data.data), that );     // the graph ignores the first entry of array, hence adding 0 to the front
+                that.update( [ data.data[0] ].concat(data.data), that );     // the graph ignores the first entry of array, hence adding 0 to the front
               }
 
             });

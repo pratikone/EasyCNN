@@ -63,7 +63,7 @@ def process_and_write_json_to_file( json_dict ) :
     json_dict["img_height"] = 221
     json_dict["loss"] = "categorical_crossentropy"
     json_dict["train_threshold"] = 0
-    json_dict["phase1_optimizer"] = "adam"
+    json_dict["phase1_optimizer"] = "adam"  #TODO get it from frontend
 
     json_dict["dropout_list"] = [ float(x) for x in json_dict["dropout_list"].strip().split(",")]
     json_dict["dense_list"] = [ int(x) for x in json_dict["dense_list"].strip().split(",")]
