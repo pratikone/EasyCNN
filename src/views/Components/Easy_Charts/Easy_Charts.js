@@ -132,7 +132,7 @@ class Easy_Charts extends Component {
         for(var i=0; i < new_data.length; i++) {
           new_labels.push( i );
         }
-        console.log("Length : " + new_data.length)
+        //console.log("Length : " + new_data.length)
 
         let datacopy = Object.assign({}, that.state.mainChart);
         datacopy.labels = new_labels;
