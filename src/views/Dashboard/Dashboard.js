@@ -36,6 +36,7 @@ class Dashboard extends Component {
       dropdownOpen: false,
       small_charts: [ "val_top_k_categorical_accuracy",  "val_loss", "loss", "top_k_categorical_accuracy", "acc", "val_acc" ],
       colors: ["bg-primary", "bg-success", "bg-warning", "bg-info", "bg-danger"],
+      best_mode_prefix: "/current",
     };
   }
 
@@ -44,6 +45,16 @@ class Dashboard extends Component {
       dropdownOpen: !this.state.dropdownOpen
     });
   }
+
+  //best mode switch
+  handleBestMode(e) {
+          var checked = e.target.checked;
+          if ( checked )
+            this.setState({best_mode_prefix: "/best"});
+          else
+            this.setState({best_mode_prefix: "/current"});
+     }
+
 
 
   render() {
@@ -57,6 +68,14 @@ class Dashboard extends Component {
         <Row>
           <Col>
             <Card>
+              <CardHeader>
+                &nbsp; &nbsp; Best results
+                <Label className="switch switch-lg switch-text switch-info float-left mb-0">
+                  <Input type="checkbox" className="switch-input" onChange={(e) => { this.handleBestMode(e); }}/>
+                  <span className="switch-label" data-on="ON" data-off="OFF"></span>
+                  <span className="switch-handle"></span>
+                </Label>
+              </CardHeader>
               <CardBlock className="card-body">
                 <Row>
                   <Col sm="5">
@@ -64,7 +83,7 @@ class Dashboard extends Component {
                     <div className="small text-muted">Loss value</div>
                   </Col>
                 </Row>
-                <Easy_Charts url='http://localhost:5000/update_chart_data'/>
+                <Easy_Charts url={'http://localhost:5000/update_chart_data'+ this.state.best_mode_prefix}/>
               </CardBlock>
             </Card>
           </Col>
@@ -84,7 +103,7 @@ class Dashboard extends Component {
                       <div className="small text-muted">Value</div>
                     </Col>
                   </Row>
-                  <Easy_Charts url={'http://localhost:5000/update_small_chart_data/' + chart_type}   />
+                  <Easy_Charts url={'http://localhost:5000/update_small_chart_data/' + chart_type + this.state.best_mode_prefix}   />
                 </CardBlock>
               </Card>
             )

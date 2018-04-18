@@ -131,29 +131,41 @@ class Easy_Charts extends Component {
 
     update ( new_data, that ) {
         
-        //x-axis 
-        var new_labels = [];
-        for(var i=0; i < new_data.length; i++) {
-          new_labels.push( i );
-        }
+        
 
         //console.log("Length : " + new_data.length)
 
         let datacopy = Object.assign({}, that.state.mainChart);
-        datacopy.labels = new_labels;
+        
         var new_data_array = [];
-        for( var i=0; i <1; i++ ){
+        var i = 0;
+        
+        var max_length = 0;  //for x axis
+
+        for( var key in new_data ){
+              console.log( new_data[key] );
+              max_length = Math.max(max_length, new_data[key].length);
               var single_run_data = {
-                                  label: 'My First dataset',
+                                  label: key,
                                   backgroundColor: this.convertHex( this.state.colors[i], 10),
-                                  borderColor: this.state.colors[i],
+                                  borderColor: this.state.colors[ ( i % this.state.colors.length)  ],
                                   pointHoverBackgroundColor: '#fff',
                                   borderWidth: 2,
-                                  data: new_data
+                                  data: new_data[key],
                                 };
               new_data_array.push( single_run_data );
+              i++;
         }
         datacopy.datasets = new_data_array;
+
+        //x-axis code
+        
+        // console.log("Max x-axis length " + max_length);
+        var new_labels = [];
+        for(var i=0; i < max_length; i++) {
+          new_labels.push( i );
+        }
+        datacopy.labels = new_labels; //set new label for the chart
 
         //console.log(datacopy.datasets[0].data);
         that.setState({mainChart: datacopy});
@@ -177,12 +189,11 @@ class Easy_Charts extends Component {
             response.json().then(function(data) {
               // console.log("@@" + data);
               if ( Object.keys(data).length === 0 && data.constructor === Object ){  //empty object sent by server
-                that.update( [0], that ); 
+                //that.update( undefined, that );  //TODO
                 console.log("returned value is empty");
               }
               else{  //when server has sent non-empty data
-                console.log(data.data);
-                that.update( [ data.data[0] ].concat(data.data), that );     // the graph ignores the first entry of array, hence adding 0 to the front
+                that.update( data.data, that );     // the graph ignores the first entry of array, hence adding 0 to the front
               }
 
             });

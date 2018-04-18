@@ -35,18 +35,19 @@ def input_form_data():
    
     return "Successfully submitted CNN job request"
 
-@app.route('/update_chart_data')
-def update_chart_data():
-    new_data = process_CNN_batch_results()
+@app.route('/update_chart_data/<mode>')
+def update_chart_data( mode ):
+    new_data = process_CNN_results( mode )
+    # pprint( new_data )
     if new_data is None :
         return jsonify( { } ) 
     return jsonify( { 'data' : new_data } ) 
 
 
-@app.route('/update_small_chart_data/<chart_type>')
-def update_small_chart_data( chart_type ):
+@app.route('/update_small_chart_data/<chart_type>/<mode>')
+def update_small_chart_data( mode, chart_type ):
     chart_type = chart_type.strip()  #cleanup
-    new_data = process_CNN_epoch_results( chart_type )
+    new_data = process_CNN_results( chart_type )
     if new_data is None :
         return jsonify( { } ) 
 

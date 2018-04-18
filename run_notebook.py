@@ -4,6 +4,10 @@ import json
 from pprint import pprint
 import grid_search
 
+ROOT_FOLDER_PATH = "history"
+BATCH_FILE_NAME = "batch.json"
+EPOCH_FILE_NAME = "epoch.json"
+
 def run_notebook() :
     splitter.split_input()
     
@@ -13,33 +17,36 @@ def run_notebook() :
     
     pprint("***** Ending execution of notebook")
 
-def process_CNN_batch_results():
-    FILE_PATH = "history/xception/dense_512_dropout_0.1"
-    FILE_NAME = "batch.json"
-    my_file = Path( FILE_PATH + "/" + FILE_NAME )
-    if my_file.is_file():
-        data = json.load( open( str(my_file) ) )
-        # pprint( data['loss'] )
-        return data['loss']
+def process_CNN_results( mode, chart_type = None ):
+    FOLDER_PATH = ROOT_FOLDER_PATH + "/" + mode
+    results = {}
+    result_folder = Path( FOLDER_PATH )
+
+    sub_folder_list = [str(f) for f in result_folder.glob('**/*') if f.is_dir()]
+
+    
+    for folder in sub_folder_list :
+
+        if chart_type is None :
+            my_file = Path( folder + "/" + BATCH_FILE_NAME )
+        else :
+            my_file = Path( folder + "/" + EPOCH_FILE_NAME )
+        
+        if my_file.is_file():
+            data = json.load( open( str(my_file) ) )
+
+            # pprint( data )
+            if chart_type is None :
+                results[ folder.split("/")[-1] ] = data['loss']
+            else :
+                if None in data[chart_type] :  #  null is parsed as None in Python, smart boy/girl
+                    pass   #TODO check for multiple entries
+                else :
+                    results[ folder.split("/")[-1] ] = data[chart_type]   #add entry for chart type
+    if results:
+        return results
     
     return None        
-
-
-def process_CNN_epoch_results( chart_type ):
-    FILE_PATH = "history/xception/dense_512_dropout_0.1"
-    FILE_NAME = "epoch.json"
-
-    my_file = Path( FILE_PATH + "/" + FILE_NAME )
-    
-    if my_file.is_file():
-        data = json.load( open( str(my_file) ) )
-        if None in data[chart_type] :  #  null is parsed as None in Python, smart boy/girl
-            return None
-        return data[chart_type]
-    
-    return None        
-
-
 
 
 
