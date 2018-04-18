@@ -68,7 +68,7 @@ def run() :
     from collections import defaultdict
     import keras
     import tensorflow as tf
-
+    import shutil
 
     # In[3]:
 
@@ -178,7 +178,14 @@ def run() :
         def on_train_begin(self, logs={}):
             pass
          
-        def on_batch_end(self, batch, logs={}):     
+        def on_batch_end(self, batch, logs={}): 
+            best_model1 = {}
+            best_model1['model'] = params['model']
+            best_model1['loss'] = str(logs.get('loss'))
+            best_model1['acc'] = str(logs.get('acc'))
+            best_model1['top_k_categorical_accuracy'] = str(logs.get('top_k_categorical_accuracy'))
+            with open("./history/current/" + 'model.txt', "w") as f:
+                json.dump(best_model1, f)        
             params["batch"]["loss"].append(str(logs.get('loss')))        
             params["batch"]["top_k_categorical_accuracy"].append(str(logs.get('top_k_categorical_accuracy')))          
             params["batch"]["acc"].append(str(logs.get('acc')))
@@ -206,13 +213,15 @@ def run() :
         params["model"] = model_name
         best_accuracy = 0
 
+        if os.path.exists('./history/current'):
+            shutil.rmtree('./history/current')        
         for dropout_num in params["dropout_list"]:
             for dense_num in params["dense_list"]:
                 sess = tf.Session()
                 K.set_session(sess)
                 params["dense1"] = {"num":dense_num, "dropout":dropout_num, "pool":"avg_poolx", "activation":"relu"}
                 params["tensorpath"] = "./tensor/" + params['model'] + "/" + "dense_"+str(dense_num) + "_dropout_" + str(dropout_num)
-                params["historypath"] = "./history/" + params['model'] + "/" + "dense_"+str(dense_num) + "_dropout_" + str(dropout_num)
+                params["historypath"] = "./history/current" + "/" + "dense_"+str(dense_num) + "_dropout_" + str(dropout_num)
                 tbd = TensorBoard(log_dir=params["tensorpath"] ,  batch_size=params["batch_size"], write_graph=True )
                 params["history"] = {}
                 params["history"]["val_top_k_categorical_accuracy"] = []
@@ -256,27 +265,31 @@ def run() :
                              validation_data = validation_generator,
                              callbacks=[tbd, epoch_history],
                              validation_steps = math.ceil(params["test_size"]  / params["batch_size"]))
-                       
-                final_history = defaultdict(list)
 
-                for d in (history.history, history1.history): # you can list as many input dicts as you want here
-                    for key, value in d.items():
-                        for t in value:
-                            final_history[key].append(t)
-                with open(params["historypath"] + "/history.json", "w") as f:
-                    json.dump(final_history, f)  
-                    
+                if not os.path.exists("./history/best/" + params["model"]):
+                    os.makedirs("./history/best/" + params["model"])
+                
                 if (history1.history['val_acc'][-1] > best_accuracy):
                     best_accuracy = history1.history['val_acc'][-1]
                     model.save("model_" + params["model"] + ".h5")
-                    with open(params["model"] +"_history.json", "w") as f:
-                        json.dump(final_history, f)
+                    shutil.copyfile(params["historypath"] + "/epoch.json", "./history/best/" + params["model"] +"/epoch.json")
+                    shutil.copyfile(params["historypath"] + "/batch.json", "./history/best/" + params["model"] +"/batch.json")                
 
                 if (history1.history['val_acc'][-1] > max_accuracy):
                     max_accuracy = history1.history['val_acc'][-1]
                     model.save("best_model" + ".h5")
-                    with open("best_history.json", "w") as f:
-                        json.dump(final_history, f)
+                    best_model = {}
+                    best_model['model'] = params["model"]
+                    best_model["val_acc"] = history1.history['val_acc'][-1]
+                    best_model['val_top_k_categorical_accuracy'] = history1.history['val_top_k_categorical_accuracy'][-1]
+                    best_model['val_loss'] = history1.history['val_loss'][-1]
+                    best_model["loss"] = history1.history['loss'][-1]
+                    best_model["top_k_categorical_accuracy"] = history1.history['top_k_categorical_accuracy'][-1]
+                    best_model["acc"] = history1.history['acc'][-1]
+                    best_model["val_acc"] = history1.history['val_acc'][-1]        
+                    with open("./history/best/" + 'model.txt', "w") as f:
+                        json.dump(best_model, f)                             
+
                 del model
                 sess.close()
                 tf.reset_default_graph()
