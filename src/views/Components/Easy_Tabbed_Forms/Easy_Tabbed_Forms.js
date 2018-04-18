@@ -37,11 +37,11 @@ class Easy_Tabbed_Forms extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: '2',
-      batch_size: 0,
-      initial_epoch: 0,
-      final_epoch: 0,
-      workers: 0,
-      step_per_epoch: 0,
+      batch_size: 16,
+      initial_epoch: 4,
+      final_epoch: 8,
+      workers: 4,
+      step_per_epoch: 64,
       dropout_list: 0,
       dense_list: 0,
       metrics: ['top_k_categorical_accuracy'],  
@@ -128,20 +128,22 @@ class Easy_Tabbed_Forms extends Component {
 
   submit_form( e, component ){
     var return_obj = {}
-    return_obj.layers = component.state.layers;
-    if (component.state.activeTab == '2'){
-      return_obj.batch_size = component.state.batch_size;
-      
-      return_obj.initial_epoch = component.state.initial_epoch;
-      return_obj.final_epoch = component.state.final_epoch;
-      return_obj.workers = component.state.workers;
-      return_obj.step_per_epoch = component.state.step_per_epoch;
-      return_obj.dropout_list = component.state.dropout_list;
-      return_obj.dense_list = component.state.dense_list;
-      return_obj.metrics = component.state.metrics;
-      return_obj.model_list = component.state.model_list;
+    return_obj.batch_size = component.state.batch_size;
+    
+    return_obj.initial_epoch = component.state.initial_epoch;
+    return_obj.final_epoch = component.state.final_epoch;
+    return_obj.workers = component.state.workers;
+    return_obj.step_per_epoch = component.state.step_per_epoch;
+    return_obj.dropout_list = component.state.dropout_list;
+    return_obj.dense_list = component.state.dense_list;
+    return_obj.metrics = component.state.metrics;
+    return_obj.model_list = component.state.model_list;
 
+    if (component.state.activeTab == '1'){
+        return_obj.metrics = ['top_k_categorical_accuracy', 'accuracy'];
+        return_obj.model_list = this.state.models;        
     }
+
     var return_value = JSON.stringify( return_obj );
 
     fetch("http://localhost:5000/input_test", {
@@ -151,21 +153,21 @@ class Easy_Tabbed_Forms extends Component {
       'Content-Type': 'application/json'
       })
     })
-      .then(res => res)
-      .then(
-        (result) => {
-          if (result.status !== 200) {
-              console.log('Looks like there was a problem. Status Code: ' +
-                result.status);
-              return;
-          }
-          console.log("Data sent to backend");
-        },
-        (error) => {
-
-          console.log("ajax has errors " + error);
+    .then(res => res)
+    .then(
+      (result) => {
+        if (result.status !== 200) {
+            console.log('Looks like there was a problem. Status Code: ' +
+              result.status);
+            return;
         }
-      )
+        console.log("Data sent to backend");
+      },
+      (error) => {
+
+        console.log("ajax has errors " + error);
+      }
+    )
   }
 
 
@@ -213,6 +215,19 @@ class Easy_Tabbed_Forms extends Component {
             <TabContent activeTab={this.state.activeTab}>
               
               <TabPane tabId="1">
+                <FormGroup>
+                  <Col xs="8">
+                    <Easy_Text_Form id="dropout_list"  value={this.state.dropout_list} label="Dropout list"
+                                       placeholder="Set comma separated dropout list" callback={this.handleDropoutListChange} />
+                  </Col>
+
+                  <Col xs="8">
+                    <Easy_Text_Form id="dense_list" value={this.state.dense_list} label="Dense list"
+                                       placeholder="Set comma separated dense list" callback={this.handleDenseListChange} />
+                  </Col> 
+
+                </FormGroup>
+
                <Form action="" method="post" className="form_1">
                 <FileUpload/>
                 </Form>
@@ -262,13 +277,13 @@ class Easy_Tabbed_Forms extends Component {
                   </Col>
 
                   <Col xs="8">
-                    <Easy_Text_Form id="dropout_list"  value={this.state.dropout_list} label="Dropout list"
-                                       placeholder="Set comma separated dropout list" callback={this.handleDropoutListChange} />
+                    <Easy_Text_Form id="dropout_list"  value={this.state.dropout_list} label="Dropout"
+                                       placeholder="Set dropout count" callback={this.handleDropoutListChange} />
                   </Col>
 
                   <Col xs="8">
-                    <Easy_Text_Form id="dense_list" value={this.state.dense_list} label="Dense list"
-                                       placeholder="Set comma separated dense list" callback={this.handleDenseListChange} />
+                    <Easy_Text_Form id="dense_list" value={this.state.dense_list} label="Dense"
+                                       placeholder="Set dense count" callback={this.handleDenseListChange} />
                   </Col>                  
 
                   <Col xs="8">
@@ -285,7 +300,6 @@ class Easy_Tabbed_Forms extends Component {
                       </Input>
                     </FormGroup>
                   </Col>
-
 
                   <FileUpload/>
 

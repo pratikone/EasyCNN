@@ -4,7 +4,7 @@ import {Line} from "react-chartjs-2";
 class Easy_Charts extends Component {
     constructor(props) {
         super(props);
-        const brandPrimary = '#20a8d8';
+        const brandPrimary = '#9d1fd8';
         const brandSuccess = '#4dbd74';
         const brandInfo = '#63c2de';
         const brandWarning = '#f8cb00';
@@ -32,30 +32,30 @@ class Easy_Charts extends Component {
               borderWidth: 2,
               data: data1
             },
-            // {
-            //   label: 'My Second dataset',
-            //   backgroundColor: 'transparent',
-            //   borderColor: brandSuccess,
-            //   pointHoverBackgroundColor: '#fff',
-            //   borderWidth: 2,
-            //   data: data2
-            // },
-            // {
-            //   label: 'My Third dataset',
-            //   backgroundColor: 'transparent',
-            //   borderColor: brandDanger,
-            //   pointHoverBackgroundColor: '#fff',
-            //   borderWidth: 1,
-            //   borderDash: [8, 5],
-            //   data: data3
-            // }
+            {
+              label: 'My Second dataset',
+              backgroundColor: 'transparent',
+              borderColor: brandSuccess,
+              pointHoverBackgroundColor: '#fff',
+              borderWidth: 2,
+              data: data2
+            },
+            {
+              label: 'My Third dataset',
+              backgroundColor: 'transparent',
+              borderColor: brandDanger,
+              pointHoverBackgroundColor: '#fff',
+              borderWidth: 1,
+              borderDash: [8, 5],
+              data: data3
+            }
           ]
         }
 
         const mainChartOpts = {
           maintainAspectRatio: false,
           legend: {
-            display: false
+            display: true
           },
           /*
           scales: {
@@ -87,7 +87,9 @@ class Easy_Charts extends Component {
 
         this.state = {
             mainChart: mainChart,
-            mainChartOpts: mainChartOpts
+            mainChartOpts: mainChartOpts, 
+            colors : [ '#63c2de', '#9d1fd8', '#4dbd74', '#f8cb00', '#f86c6b' ],
+
         };
 
 
@@ -128,18 +130,34 @@ class Easy_Charts extends Component {
 
 
     update ( new_data, that ) {
+        
+        //x-axis 
         var new_labels = [];
         for(var i=0; i < new_data.length; i++) {
           new_labels.push( i );
         }
+
         //console.log("Length : " + new_data.length)
 
         let datacopy = Object.assign({}, that.state.mainChart);
         datacopy.labels = new_labels;
-        datacopy.datasets[0].data = new_data;
+        var new_data_array = [];
+        for( var i=0; i <1; i++ ){
+              var single_run_data = {
+                                  label: 'My First dataset',
+                                  backgroundColor: this.convertHex( this.state.colors[i], 10),
+                                  borderColor: this.state.colors[i],
+                                  pointHoverBackgroundColor: '#fff',
+                                  borderWidth: 2,
+                                  data: new_data
+                                };
+              new_data_array.push( single_run_data );
+        }
+        datacopy.datasets = new_data_array;
 
         //console.log(datacopy.datasets[0].data);
         that.setState({mainChart: datacopy});
+
 
     }
 
