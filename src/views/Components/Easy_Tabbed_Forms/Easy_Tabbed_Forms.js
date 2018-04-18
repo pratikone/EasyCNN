@@ -46,7 +46,7 @@ class Easy_Tabbed_Forms extends Component {
       dense_list: 0,
       metrics: ['top_k_categorical_accuracy'],  
       model_list: ['xception'],
-      models: [ 'xception', 'Inceptionv3', 'InceptionResNetv2', 'DenseNet121', 'DenseNet169', 'DenseNet201'  ],
+      models: [ 'xception', 'InceptionV3', 'InceptionResNetV2', 'DenseNet121', 'DenseNet169', 'DenseNet201'  ],
     };
 
     this.handleBatchSizeChange = this.handleBatchSizeChange.bind(this);
@@ -119,7 +119,10 @@ class Easy_Tabbed_Forms extends Component {
                               
                              }
 
-  handleModelSelection(e) { this.setState({model_list: [ this.state.models[e.target.value] ]}); }
+
+  handleModelSelection(e) {
+                               this.setState({model_list: [ this.state.models[e.target.value] ]});
+                          }
 
 
 
@@ -273,12 +276,12 @@ class Easy_Tabbed_Forms extends Component {
                       <Label htmlFor="model_choose">Model Selection</Label>
                       <Input type="select" name="model_choose" id="model_choose"
                                                   onChange={(e) => {this.handleModelSelection(e); }}>
-                        <option value="1">{ this.state.models[0] }</option>
-                        <option value="2">{ this.state.models[1] }</option>
-                        <option value="3">{ this.state.models[2] }</option>
-                        <option value="4">{ this.state.models[3] }</option>
-                        <option value="5">{ this.state.models[4] }</option>
-                        <option value="6">{ this.state.models[5] }</option>
+                        <option value="0">{ this.state.models[0] }</option>
+                        <option value="1">{ this.state.models[1] }</option>
+                        <option value="2">{ this.state.models[2] }</option>
+                        <option value="3">{ this.state.models[3] }</option>
+                        <option value="4">{ this.state.models[4] }</option>
+                        <option value="5">{ this.state.models[5] }</option>
                       </Input>
                     </FormGroup>
                   </Col>

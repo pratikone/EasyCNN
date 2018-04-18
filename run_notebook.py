@@ -18,7 +18,7 @@ def process_CNN_batch_results():
     FILE_NAME = "batch.json"
     my_file = Path( FILE_PATH + "/" + FILE_NAME )
     if my_file.is_file():
-        data = json.load( open( my_file ) )
+        data = json.load( open( str(my_file) ) )
         # pprint( data['loss'] )
         return data['loss']
     
@@ -32,7 +32,7 @@ def process_CNN_epoch_results( chart_type ):
     my_file = Path( FILE_PATH + "/" + FILE_NAME )
     
     if my_file.is_file():
-        data = json.load( open( my_file ) )
+        data = json.load( open( str(my_file) ) )
         if None in data[chart_type] :  #  null is parsed as None in Python, smart boy/girl
             return None
         return data[chart_type]
