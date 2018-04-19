@@ -9,6 +9,11 @@ from run_notebook import *
 
 app = Flask(__name__)
 
+
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 @app.route('/')
 def hello_world():
     print( os.getcwd() )
@@ -16,7 +21,7 @@ def hello_world():
 
 @app.route('/<path:path>')
 def send_js(path):
-    print( "came here with path ", path )
+    # print( "came here with path ", path )
     return send_from_directory( 'build', path )
 
 @app.route('/ajax_test')
@@ -30,9 +35,6 @@ def input_form_data():
     response = request.get_json(force=True)
     pprint (response)
     process_and_write_json_to_file( response )
-
-
-   
     return "Successfully submitted CNN job request"
 
 @app.route('/update_chart_data/<mode>')
@@ -45,9 +47,9 @@ def update_chart_data( mode ):
 
 
 @app.route('/update_small_chart_data/<chart_type>/<mode>')
-def update_small_chart_data( mode, chart_type ):
+def update_small_chart_data( chart_type, mode  ):
     chart_type = chart_type.strip()  #cleanup
-    new_data = process_CNN_results( chart_type )
+    new_data = process_CNN_results( mode, chart_type )
     if new_data is None :
         return jsonify( { } ) 
 

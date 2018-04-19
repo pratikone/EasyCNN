@@ -143,11 +143,10 @@ class Easy_Charts extends Component {
         var max_length = 0;  //for x axis
 
         for( var key in new_data ){
-              console.log( new_data[key] );
               max_length = Math.max(max_length, new_data[key].length);
               var single_run_data = {
                                   label: key,
-                                  backgroundColor: this.convertHex( this.state.colors[i], 10),
+                                  backgroundColor: this.convertHex( this.state.colors[ ( i % this.state.colors.length)  ], 10),
                                   borderColor: this.state.colors[ ( i % this.state.colors.length)  ],
                                   pointHoverBackgroundColor: '#fff',
                                   borderWidth: 2,
@@ -185,9 +184,9 @@ class Easy_Charts extends Component {
             }
 
 
-            // Examine the text in the response
-            response.json().then(function(data) {
-              // console.log("@@" + data);
+              // Examine the text in the response
+              response.json().then(function(data) {
+              console.log(data);
               if ( Object.keys(data).length === 0 && data.constructor === Object ){  //empty object sent by server
                 //that.update( undefined, that );  //TODO
                 console.log("returned value is empty");
@@ -202,7 +201,6 @@ class Easy_Charts extends Component {
         .catch(function(err) {
           console.log('Fetch Error :-S', err);
         });
-
 
 
     }

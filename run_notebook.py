@@ -23,20 +23,17 @@ def process_CNN_results( mode, chart_type = None ):
     result_folder = Path( FOLDER_PATH )
 
     sub_folder_list = [str(f) for f in result_folder.glob('**/*') if f.is_dir()]
-
-    
     for folder in sub_folder_list :
 
         if chart_type is None :
             my_file = Path( folder + "/" + BATCH_FILE_NAME )
         else :
             my_file = Path( folder + "/" + EPOCH_FILE_NAME )
-        
         if my_file.is_file():
             data = json.load( open( str(my_file) ) )
 
             # pprint( data )
-            if chart_type is None :
+            if chart_type is None : # in case of batch.json
                 results[ folder.split("/")[-1] ] = data['loss']
             else :
                 if None in data[chart_type] :  #  null is parsed as None in Python, smart boy/girl
