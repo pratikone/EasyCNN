@@ -181,9 +181,9 @@ def run() :
         def on_batch_end(self, batch, logs={}): 
             best_model1 = {}
             best_model1['model'] = params['model']
-            best_model1['loss'] = str(logs.get('loss'))
             best_model1['acc'] = str(logs.get('acc'))
             best_model1['top_k_categorical_accuracy'] = str(logs.get('top_k_categorical_accuracy'))
+            best_model1['loss'] = str(logs.get('loss'))
             with open("./history/current/" + 'model.txt', "w") as f:
                 json.dump(best_model1, f)        
             params["batch"]["loss"].append(str(logs.get('loss')))        
@@ -194,6 +194,16 @@ def run() :
                 json.dump(params["batch"], f)     
         
         def on_epoch_end(self, batch, logs={}):
+            best_model1 = {}
+            best_model1['model'] = params['model']
+            best_model1['val_acc'] = str(logs.get('val_acc'))
+            best_model1['val_top_k_categorical_accuracy'] = str(logs.get('val_top_k_categorical_accuracy'))
+            best_model1['val_loss'] = str(logs.get('val_loss'))
+            best_model1['acc'] = str(logs.get('acc'))
+            best_model1['top_k_categorical_accuracy'] = str(logs.get('top_k_categorical_accuracy'))
+            best_model1['loss'] = str(logs.get('loss'))
+            with open("./history/current/" + 'model.txt', "w") as f:
+                json.dump(best_model1, f)        
             params["history"]["val_top_k_categorical_accuracy"].append(logs.get('val_top_k_categorical_accuracy'))
             params["history"]["val_loss"].append(logs.get('val_loss'))        
             params["history"]["loss"].append(logs.get('loss'))        
@@ -283,10 +293,9 @@ def run() :
                     best_model["val_acc"] = history1.history['val_acc'][-1]
                     best_model['val_top_k_categorical_accuracy'] = history1.history['val_top_k_categorical_accuracy'][-1]
                     best_model['val_loss'] = history1.history['val_loss'][-1]
-                    best_model["loss"] = history1.history['loss'][-1]
-                    best_model["top_k_categorical_accuracy"] = history1.history['top_k_categorical_accuracy'][-1]
                     best_model["acc"] = history1.history['acc'][-1]
-                    best_model["val_acc"] = history1.history['val_acc'][-1]        
+                    best_model["top_k_categorical_accuracy"] = history1.history['top_k_categorical_accuracy'][-1]
+                    best_model["loss"] = history1.history['loss'][-1]
                     with open("./history/best/" + 'model.txt', "w") as f:
                         json.dump(best_model, f)                             
 
