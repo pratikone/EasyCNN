@@ -1,8 +1,15 @@
 import os
-
+import shutil
 def split_input() :
 	from sklearn.cross_validation import train_test_split
-	
+
+    if os.path.exists('./train'):
+	    print("Split exists, returning")
+        return
+
+    if os.path.exists('./test'):
+	    print("Split exists, returning")
+        return
 	print("Splitting input")
 	for i in os.listdir('caltech_100'):
 		X = y = os.listdir('caltech_100/'+i)
@@ -15,9 +22,9 @@ def split_input() :
 	    		os.makedirs('test/'+i)
 
 		for x in X_train:
-			os.rename('caltech_100/'+i+'/'+x, 'train/'+i+'/'+x)
+			shutil.copyfile('caltech_100/'+i+'/'+x, 'train/'+i+'/'+x)
 		for x in X_test:
-			os.rename('caltech_100/'+i+'/'+x, 'test/'+i+'/'+x)
+			shutil.copyfile('caltech_100/'+i+'/'+x, 'test/'+i+'/'+x)
 
 
 if __name__ == '__main__' :
