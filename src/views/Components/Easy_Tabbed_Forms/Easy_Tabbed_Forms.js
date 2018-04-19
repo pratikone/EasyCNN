@@ -215,7 +215,13 @@ class Easy_Tabbed_Forms extends Component {
             <TabContent activeTab={this.state.activeTab}>
               
               <TabPane tabId="1">
+
                 <FormGroup>
+                  <Col xs="8">
+                    <Easy_Text_Form id="phase1" value="adam" label="Phase1 Optimizer"
+                                       placeholder="adam" callback={() => {}} />
+                  </Col>                  
+
                   <Col xs="8">
                     <Easy_Text_Form id="dropout_list"  value={this.state.dropout_list} label="Dropout list"
                                        placeholder="Set comma separated dropout list" callback={this.handleDropoutListChange} />
@@ -275,6 +281,11 @@ class Easy_Tabbed_Forms extends Component {
 
                     </FormGroup>
                   </Col>
+                  <Col xs="8">
+                    <Easy_Text_Form id="phase1" value="adam" label="Phase1 Optimizer"
+                                       placeholder="adam" callback={() => {}} />
+                  </Col>                  
+
 
                   <Col xs="8">
                     <Easy_Text_Form id="dropout_list"  value={this.state.dropout_list} label="Dropout"
@@ -284,7 +295,7 @@ class Easy_Tabbed_Forms extends Component {
                   <Col xs="8">
                     <Easy_Text_Form id="dense_list" value={this.state.dense_list} label="Dense"
                                        placeholder="Set dense count" callback={this.handleDenseListChange} />
-                  </Col>                  
+                  </Col>
 
                   <Col xs="8">
                     <FormGroup>
@@ -308,16 +319,9 @@ class Easy_Tabbed_Forms extends Component {
 
                 <FormGroup row>
                   <Col xs="8">
-                    <FormGroup>
-                      <Label htmlFor="city">City</Label>
-                      <Input type="text" id="city" placeholder="Enter your city"/>
-                    </FormGroup>
-                  </Col>
-                  <Col xs="8">
-                    <FormGroup>
-                      <Label htmlFor="postal-code">Postal Code</Label>
-                      <Input type="text" id="postal-code" placeholder="Postal Code"/>
-                    </FormGroup>
+                    <Easy_Text_Form id="choose_own_model_file" value="adam" label="Pre-trained model name"
+                             placeholder="Enter model name" callback={() => {}} />
+
                   </Col>
                 </FormGroup>
                 <FileUpload/>

@@ -26,12 +26,14 @@ import {
 
 import Easy_Tabbed_Forms from '../../views/Components/Easy_Tabbed_Forms/';
 import Easy_Charts from '../../views/Components/Easy_Charts/';
+import Easy_Large_Button from '../../views/Components/Easy_Large_Button/';
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.handleBestMode = this.handleBestMode.bind(this);
     this.state = {
       dropdownOpen: false,
       small_charts: [ "val_top_k_categorical_accuracy",  "val_loss", "loss", "top_k_categorical_accuracy", "acc", "val_acc" ],
@@ -49,6 +51,7 @@ class Dashboard extends Component {
   //best mode switch
   handleBestMode(e) {
           var checked = e.target.checked;
+          console.log(checked);
           if ( checked )
             this.setState({best_mode_prefix: "/best"});
           else
@@ -66,16 +69,15 @@ class Dashboard extends Component {
           <Easy_Tabbed_Forms/>
         </Row>
         <Row>
+          <Col xs="12" sm="6" lg="3">
+          <Easy_Large_Button text="Best Mode :" header="Choose mode :best/current" color="bg-danger" show_button={true} callback={this.handleBestMode}  />
+          </Col>
+        </Row>
+
+
+        <Row>
           <Col>
             <Card>
-              <CardHeader>
-                &nbsp; &nbsp; Best results
-                <Label className="switch switch-lg switch-text switch-info float-left mb-0">
-                  <Input type="checkbox" className="switch-input" onChange={(e) => { this.handleBestMode(e); }}/>
-                  <span className="switch-label" data-on="ON" data-off="OFF"></span>
-                  <span className="switch-handle"></span>
-                </Label>
-              </CardHeader>
               <CardBlock className="card-body">
                 <Row>
                   <Col sm="5">

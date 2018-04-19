@@ -3,7 +3,6 @@ import random
 import json
 from pprint import pprint
 import threading
-from serverutil import *
 from flask import Flask, render_template, send_from_directory, request, jsonify
 from run_notebook import *
 
@@ -16,7 +15,6 @@ log.setLevel(logging.ERROR)
 
 @app.route('/')
 def hello_world():
-    print( os.getcwd() )
     return send_from_directory('build','index.html')
 
 @app.route('/<path:path>')
