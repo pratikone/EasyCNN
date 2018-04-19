@@ -21,12 +21,14 @@ import {
   ButtonDropdown,
   Label,
   Input,
-  Table
+  Table,
 } from "reactstrap";
+
 
 import Easy_Tabbed_Forms from '../../views/Components/Easy_Tabbed_Forms/';
 import Easy_Charts from '../../views/Components/Easy_Charts/';
 import Easy_Large_Button from '../../views/Components/Easy_Large_Button/';
+import Easy_Progress from '../../views/Components/Easy_Progress/';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -42,16 +44,16 @@ class Dashboard extends Component {
     };
   }
 
-  toggle() {
+  toggle( name ) {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
+
   }
 
   //best mode switch
   handleBestMode(e) {
           var checked = e.target.checked;
-          console.log(checked);
           if ( checked )
             this.setState({best_mode_prefix: "/best"});
           else
@@ -60,8 +62,8 @@ class Dashboard extends Component {
 
 
 
-  render() {
 
+  render() {
     return (
       <div className="animated fadeIn">
 
@@ -72,12 +74,18 @@ class Dashboard extends Component {
           <Col xs="12" sm="6" lg="3">
           <Easy_Large_Button text="Best Mode :" header="Choose mode :best/current" color="bg-danger" show_button={true} callback={this.handleBestMode}  />
           </Col>
+          <Col xs="12" sm="6" lg="3">
+          <Easy_Large_Button text="Best Mode :" header="Choose mode :best/current" color="bg-danger" show_button={true} callback={this.handleBestMode}  />
+          </Col>
         </Row>
 
 
         <Row>
           <Col>
             <Card>
+             <CardHeader className={  "bg-transparent" } >
+                <Easy_Progress />
+            </CardHeader>
               <CardBlock className="card-body">
                 <Row>
                   <Col sm="5">
@@ -85,18 +93,20 @@ class Dashboard extends Component {
                     <div className="small text-muted">Loss value</div>
                   </Col>
                 </Row>
-                <Easy_Charts url={'http://localhost:5000/update_chart_data'+ this.state.best_mode_prefix}/>
+                <Easy_Charts url={'http://localhost:5000/update_chart_data'+ this.state.best_mode_prefix}
+                                               />
               </CardBlock>
             </Card>
           </Col>
         </Row>
         <Row>
           <CardColumns className="cols-2">
-            {this.state.small_charts.map( ( chart_type ) => {    //looping cards to create multiple small graphs
+            {
+            this.state.small_charts.map( ( chart_type ) => {    //looping cards to create multiple small graphs
             return(
               <Card>
                <CardHeader className={  this.state.colors[ Math.floor(Math.random() * this.state.colors.length) ] } >
-                
+                <Easy_Progress />
               </CardHeader>
                 <CardBlock className="card-body">
                   <Row>
@@ -105,12 +115,15 @@ class Dashboard extends Component {
                       <div className="small text-muted">Value</div>
                     </Col>
                   </Row>
-                  <Easy_Charts url={'http://localhost:5000/update_small_chart_data/' + chart_type + this.state.best_mode_prefix}   />
+                  <Easy_Charts url={'http://localhost:5000/update_small_chart_data/' + chart_type + this.state.best_mode_prefix} 
+                                                         />
                 </CardBlock>
               </Card>
             )
 
-            })}
+            })
+            
+            }
 
           </CardColumns>          
 

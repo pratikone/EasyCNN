@@ -129,13 +129,13 @@ class Easy_Charts extends Component {
 
 
 
-    update ( new_data, that ) {
+    update ( new_data ) {
         
         
 
         //console.log("Length : " + new_data.length)
 
-        let datacopy = Object.assign({}, that.state.mainChart);
+        let datacopy = Object.assign({}, this.state.mainChart);
         
         var new_data_array = [];
         var i = 0;
@@ -167,13 +167,14 @@ class Easy_Charts extends Component {
         datacopy.labels = new_labels; //set new label for the chart
 
         //console.log(datacopy.datasets[0].data);
-        that.setState({mainChart: datacopy});
+        this.setState({mainChart: datacopy});
 
 
     }
 
     check_for_updates() {
       var that = this;
+      
       fetch( this.props.url )   //url
         .then(
           function(response) {
@@ -192,7 +193,7 @@ class Easy_Charts extends Component {
                 console.log("returned value is empty");
               }
               else{  //when server has sent non-empty data
-                that.update( data.data, that );     // the graph ignores the first entry of array, hence adding 0 to the front
+                that.update( data.data );     // the graph ignores the first entry of array, hence adding 0 to the front
               }
 
             });
