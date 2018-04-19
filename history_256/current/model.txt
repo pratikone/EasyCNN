@@ -1,0 +1,1 @@
+{"model": "DenseNet201", "loss": "0.72329485", "acc": "0.78125", "top_k_categorical_accuracy": "0.953125"}
