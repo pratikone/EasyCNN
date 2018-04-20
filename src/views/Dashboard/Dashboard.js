@@ -75,10 +75,18 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-
         <Row>
-          <Easy_Tabbed_Forms/>
+        <Col xs="12" md="6" lg="10">
+          <Card>
+            <CardBlock className="card-body">
+              <Button color="primary" size="lg" block>EASY CNN : Convolutional Neural Network As-A-Service</Button>
+            </CardBlock>
+          </Card>
+          </Col>
         </Row>
+        <Row>
+          <Easy_Tabbed_Forms />
+        < /Row >
         <Row>
           <Col xs="12" sm="6" lg="3">
           <Easy_Large_Button text="Best Mode :" header="Choose mode :best/current" color="bg-danger" show_button={true} callback={this.handleBestMode}  />

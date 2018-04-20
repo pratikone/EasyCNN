@@ -29,8 +29,8 @@ class Header extends Component {
     });
   }
 
-  sidebarToggle(e) {
-    e.preventDefault();
+  sidebarToggle() {
+    // e.preventDefault();
     document.body.classList.toggle('sidebar-hidden');
   }
 
@@ -50,6 +50,7 @@ class Header extends Component {
   }
 
   render() {
+    this.sidebarToggle()
     return (
       <header className="app-header navbar">
         <NavbarToggler className="d-lg-none" onClick={this.mobileSidebarToggle}>&#9776;</NavbarToggler>
@@ -57,13 +58,10 @@ class Header extends Component {
         <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>&#9776;</NavbarToggler>
         <Nav className="d-md-down-none" navbar>
           <NavItem className="px-3">
-            <NavLink href="#">Dashboard</NavLink>
+            <NavLink href="#">EasyCNN</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink href="#">Users</NavLink>
-          </NavItem>
-          <NavItem className="px-3">
-            <NavLink href="#">Settings</NavLink>
+            <NavLink href="#">DashBoard</NavLink>
           </NavItem>
         </Nav>
         <Nav className="ml-auto" navbar>
@@ -101,6 +99,7 @@ class Header extends Component {
           </NavItem>
         </Nav>
         <NavbarToggler className="d-md-down-none" type="button" onClick={this.asideToggle}>&#9776;</NavbarToggler>
+
       </header>
     )
   }

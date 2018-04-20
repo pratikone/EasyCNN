@@ -188,7 +188,7 @@ class Easy_Tabbed_Forms extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col sm="60">
+          <Col sm="60" >
             <Card className="card-accent-primary"> 
               <CardHeader>
               Submit a new CNN job request  <i className="fa fa-plus-circle fa-lg mt-4"></i>
