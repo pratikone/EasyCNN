@@ -42,11 +42,14 @@ class Easy_Tabbed_Forms extends Component {
       final_epoch: 8,
       workers: 4,
       step_per_epoch: 64,
-      dropout_list: 0,
-      dense_list: 0,
+      dropout_list: "0.1",
+      dense_list: "512",
       metrics: ['top_k_categorical_accuracy'],  
       model_list: ['xception'],
       models: [ 'xception', 'InceptionV3', 'InceptionResNetV2', 'DenseNet121', 'DenseNet169', 'DenseNet201'  ],
+      model_file: 'model_xception.h5',
+      model_files_list: [ 'model_xception.h5', 'model_InceptionV3.h5', 
+                                  'model_InceptionResNetV2.h5', 'model_DenseNet121.h5', 'model_DenseNet169.h5',  'model_ResNet50.h5'   ],
     };
 
     this.handleBatchSizeChange = this.handleBatchSizeChange.bind(this);
@@ -124,6 +127,11 @@ class Easy_Tabbed_Forms extends Component {
                                this.setState({model_list: [ this.state.models[e.target.value] ]});
                           }
 
+  handleModelFileSelection(e) {
+                               this.setState({model_file:  this.state.model_files_list[e.target.value] });
+                          }
+
+
 
 
   submit_form( e, component ){
@@ -142,6 +150,9 @@ class Easy_Tabbed_Forms extends Component {
     if (component.state.activeTab == '1'){
         return_obj.metrics = ['top_k_categorical_accuracy', 'accuracy'];
         return_obj.model_list = this.state.models;        
+    }
+    else if (component.state.activeTab == '3'){
+        return_obj.model_file = this.state.model_file;        
     }
 
     var return_value = JSON.stringify( return_obj );
@@ -318,11 +329,16 @@ class Easy_Tabbed_Forms extends Component {
               <TabPane tabId="3">
 
                 <FormGroup row>
-                  <Col xs="8">
-                    <Easy_Text_Form id="choose_own_model_file" value="adam" label="Pre-trained model name"
-                             placeholder="Enter model name" callback={() => {}} />
-
-                  </Col>
+                  <Label htmlFor="model_file_choose">Model Selection</Label>
+                      <Input type="select" name="model_file_choose" id="model_file_choose"
+                                                  onChange={(e) => {this.handleModelFileSelection(e); }}>
+                        <option value="0">{ this.state.model_files_list[0] }</option>
+                        <option value="1">{ this.state.model_files_list[1] }</option>
+                        <option value="2">{ this.state.model_files_list[2] }</option>
+                        <option value="3">{ this.state.model_files_list[3] }</option>
+                        <option value="4">{ this.state.model_files_list[4] }</option>
+                        <option value="5">{ this.state.model_files_list[5] }</option>
+                      </Input>
                 </FormGroup>
                 <FileUpload/>
               </TabPane>

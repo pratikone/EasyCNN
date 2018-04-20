@@ -36,12 +36,21 @@ class Dashboard extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.handleBestMode = this.handleBestMode.bind(this);
+    
+    this.handleCurrentModelNameChange = this.handleCurrentModelNameChange.bind(this);
+
+
     this.state = {
       dropdownOpen: false,
       small_charts: [ "val_top_k_categorical_accuracy",  "val_loss", "loss", "top_k_categorical_accuracy", "acc", "val_acc" ],
       colors: ["bg-primary", "bg-success", "bg-warning", "bg-info", "bg-danger"],
       best_mode_prefix: "/current",
+      current_model_name:"Loading...",
     };
+
+
+
+
   }
 
   toggle( name ) {
@@ -60,7 +69,7 @@ class Dashboard extends Component {
             this.setState({best_mode_prefix: "/current"});
      }
 
-
+  handleCurrentModelNameChange( new_name ) {this.setState({current_model_name: new_name });}
 
 
   render() {
@@ -75,7 +84,7 @@ class Dashboard extends Component {
           <Easy_Large_Button text="Best Mode :" header="Choose mode :best/current" color="bg-danger" show_button={true} callback={this.handleBestMode}  />
           </Col>
           <Col xs="12" sm="6" lg="3">
-          <Easy_Large_Button text="Best Mode :" header="Choose mode :best/current" color="bg-danger" show_button={true} callback={this.handleBestMode}  />
+          <Easy_Large_Button text={this.state.current_model_name} header="Currently running model" color="bg-info" show_button={false} callback={ () => {} }  />
           </Col>
         </Row>
 
@@ -93,8 +102,7 @@ class Dashboard extends Component {
                     <div className="small text-muted">Loss value</div>
                   </Col>
                 </Row>
-                <Easy_Charts url={'http://localhost:5000/update_chart_data'+ this.state.best_mode_prefix}
-                                               />
+                <Easy_Charts url={'http://localhost:5000/update_chart_data'+ this.state.best_mode_prefix} model_name_callback={ this.handleCurrentModelNameChange } />
               </CardBlock>
             </Card>
           </Col>

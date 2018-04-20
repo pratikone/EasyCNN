@@ -119,7 +119,7 @@ class Easy_Charts extends Component {
     componentDidMount() {
         this.timer = setInterval(
           () => this.check_for_updates(),
-          3*5000
+          1*5000
         )
     }
 
@@ -193,6 +193,7 @@ class Easy_Charts extends Component {
                 console.log("returned value is empty");
               }
               else{  //when server has sent non-empty data
+                if( data.model ){  that.props.model_name_callback( data.model ); } //setting model name  
                 that.update( data.data );     // the graph ignores the first entry of array, hence adding 0 to the front
               }
 

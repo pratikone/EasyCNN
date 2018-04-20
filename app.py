@@ -38,10 +38,13 @@ def input_form_data():
 @app.route('/update_chart_data/<mode>')
 def update_chart_data( mode ):
     new_data = process_CNN_results( mode )
+
     # pprint( new_data )
     if new_data is None :
         return jsonify( { } ) 
-    return jsonify( { 'data' : new_data } ) 
+
+    model_name = process_model_info( mode )
+    return jsonify( { 'data' : new_data, 'model': model_name } ) 
 
 
 @app.route('/update_small_chart_data/<chart_type>/<mode>')
@@ -52,8 +55,6 @@ def update_small_chart_data( chart_type, mode  ):
         return jsonify( { } ) 
 
     return jsonify( { 'data' : new_data } ) 
-
-
 
 
 

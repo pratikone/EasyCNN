@@ -7,6 +7,7 @@ import grid_search
 ROOT_FOLDER_PATH = "history"
 BATCH_FILE_NAME = "batch.json"
 EPOCH_FILE_NAME = "epoch.json"
+MODEL_FILE = "model.txt"
 
 def run_notebook() :
     splitter.split_input()
@@ -46,7 +47,26 @@ def process_CNN_results( mode, chart_type = None ):
     return None        
 
 
+def process_model_info( mode ):
+    FOLDER_PATH = ROOT_FOLDER_PATH + "/" + mode
+    results = None
+
+
+    my_file = Path( FOLDER_PATH + "/" + MODEL_FILE )
+    if my_file.is_file():
+        data = json.load( open( str(my_file) ) )
+
+        # pprint( data )
+        if "model" in data : 
+            results = data['model']
+    if results:
+        return results
+    
+    return None        
+
+
+
 
 if __name__ == '__main__' :
     #run_notebook()
-    process_results()
+    process_CNN_results()
