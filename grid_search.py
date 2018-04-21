@@ -81,6 +81,45 @@ def run() :
     with open("params_manual.json", "r") as f:
         params = json.load(f)
 
+    if ("model_file" in params):
+        val_datagen = ImageDataGenerator(rescale=1./255)
+        params["test_size"] = sum([len(files) for r, d, files in os.walk( params["test_dir"] )])
+        validation_generator = val_datagen.flow_from_directory(
+            params["test_dir"],
+            target_size = (params["img_width"], params["img_height"]),
+            batch_size = params["batch_size"],
+            shuffle = True,
+            class_mode = 'categorical')
+
+        sess = tf.Session()
+        K.set_session(sess)
+        params["historypath"] = "./history/evaluation"
+
+        if not os.path.exists(params['historypath']):
+            os.makedirs(params['historypath'])
+            
+        model = keras.models.load_model(params["model_file"])
+        history = model.evaluate_generator(generator = validation_generator,
+                                steps=math.ceil(params["test_size"]  / params["batch_size"]),
+                                max_queue_size=10, 
+                                workers=params["workers"],
+                                use_multiprocessing=False)            
+        final_history = {}
+        count = 0
+        for i in model.metrics_names:
+            final_history[i] = history[count]
+            count += 1
+        with open(params["historypath"] + "/model.txt", "w") as f:
+            json.dump(final_history, f)  
+                
+        del model
+        sess.close()
+        tf.reset_default_graph()
+
+        K.clear_session()
+
+        return
+        
     params["train_size"] = sum([len(files) for r, d, files in os.walk( params["train_dir"] )])
     params["test_size"] = sum([len(files) for r, d, files in os.walk( params["test_dir"] )])
     params["classes"] = sum([len(d) for r, d, files in os.walk( params["train_dir"] )])
