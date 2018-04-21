@@ -43,8 +43,8 @@ def update_chart_data( mode ):
     if new_data is None :
         return jsonify( { } ) 
 
-    model_name = process_model_info( mode )
-    return jsonify( { 'data' : new_data, 'model': model_name } ) 
+    extra_data = process_model_info( mode )
+    return jsonify( { 'data' : new_data, 'model': extra_data['model'], 'current_loss': extra_data['current_loss'], 'current_accuracy': extra_data['current_accuracy'] } ) 
 
 
 @app.route('/update_small_chart_data/<chart_type>/<mode>')
@@ -65,7 +65,7 @@ def process_and_write_json_to_file( json_dict ) :
     json_dict["img_height"] = 221
     json_dict["loss"] = "categorical_crossentropy"
     json_dict["train_threshold"] = 0
-    json_dict["phase1_optimizer"] = "adam"  #TODO get it from frontend
+    json_dict["phase1_optimizer"] = "adam" 
 
     json_dict["dropout_list"] = [ float(x) for x in json_dict["dropout_list"].strip().split(",")]
     json_dict["dense_list"] = [ int(x) for x in json_dict["dense_list"].strip().split(",")]

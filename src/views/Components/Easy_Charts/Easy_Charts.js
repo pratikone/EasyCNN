@@ -88,7 +88,7 @@ class Easy_Charts extends Component {
         this.state = {
             mainChart: mainChart,
             mainChartOpts: mainChartOpts, 
-            colors : [ '#63c2de', '#9d1fd8', '#4dbd74', '#f8cb00', '#f86c6b' ],
+            colors : [ '#63c2de', '#9d1fd8', '#4dbd74', '#f8cb00', '#f86c6b', '#FFA500'],
 
         };
 
@@ -192,8 +192,10 @@ class Easy_Charts extends Component {
                 //that.update( undefined, that );  //TODO
                 console.log("returned value is empty");
               }
-              else{  //when server has sent non-empty data
-                if( data.model ){  that.props.model_name_callback( data.model ); } //setting model name  
+              else{  //when server has sent non-empty data, //setting model name  
+                if( data.model ){  // not handling  others' undefined sent, it is handled at the backend
+                  that.props.extra_info_callback( data.model, data.current_loss, data.current_accuracy );
+                   } 
                 that.update( data.data );     // the graph ignores the first entry of array, hence adding 0 to the front
               }
 

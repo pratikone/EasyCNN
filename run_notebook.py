@@ -49,7 +49,7 @@ def process_CNN_results( mode, chart_type = None ):
 
 def process_model_info( mode ):
     FOLDER_PATH = ROOT_FOLDER_PATH + "/" + mode
-    results = None
+    results = {}
 
 
     my_file = Path( FOLDER_PATH + "/" + MODEL_FILE )
@@ -58,7 +58,15 @@ def process_model_info( mode ):
 
         # pprint( data )
         if "model" in data : 
-            results = data['model']
+            results['model'] = data['model']
+        if 'loss' in data :
+            results['current_loss'] = data['loss']
+        else:
+            results['current_loss'] = ""
+        if 'acc' in data :
+            results['current_accuracy'] = data['acc']
+        else:
+            results['current_accuracy'] = ""
     if results:
         return results
     

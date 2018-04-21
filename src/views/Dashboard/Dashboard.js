@@ -37,7 +37,7 @@ class Dashboard extends Component {
     this.toggle = this.toggle.bind(this);
     this.handleBestMode = this.handleBestMode.bind(this);
     
-    this.handleCurrentModelNameChange = this.handleCurrentModelNameChange.bind(this);
+    this.handleExtraInfoChange = this.handleExtraInfoChange.bind(this);
 
 
     this.state = {
@@ -46,6 +46,8 @@ class Dashboard extends Component {
       colors: ["bg-primary", "bg-success", "bg-warning", "bg-info", "bg-danger"],
       best_mode_prefix: "/current",
       current_model_name:"Loading...",
+      current_loss: "Loading...",
+      current_accuracy: "Loading...",
     };
 
 
@@ -69,7 +71,11 @@ class Dashboard extends Component {
             this.setState({best_mode_prefix: "/current"});
      }
 
-  handleCurrentModelNameChange( new_name ) {this.setState({current_model_name: new_name });}
+  handleExtraInfoChange( new_name, new_loss, new_accuracy ) {
+    this.setState({current_model_name: new_name });
+    this.setState({current_loss: new_loss });
+    this.setState({current_accuracy: new_accuracy });
+  }
 
 
   render() {
@@ -92,7 +98,13 @@ class Dashboard extends Component {
           <Easy_Large_Button text="Best Mode :" header="Choose mode :best/current" color="bg-danger" show_button={true} callback={this.handleBestMode}  />
           </Col>
           <Col xs="12" sm="6" lg="3">
-          <Easy_Large_Button text={this.state.current_model_name} header="Currently running model" color="bg-info" show_button={false} callback={ () => {} }  />
+          <Easy_Large_Button text={this.state.current_model_name} header="Current Model" color="bg-info" show_button={false} callback={ () => {} }  />
+          </Col>
+          <Col xs="12" sm="6" lg="3">
+          <Easy_Large_Button text={this.state.current_loss} header="Current Loss" color="bg-secondary" show_button={false} callback={ () => {} }  />
+          </Col>
+          <Col xs="12" sm="6" lg="3">
+          <Easy_Large_Button text={this.state.current_accuracy} header="Current Accuracy" color="bg-warning" show_button={false} callback={ () => {} }  />
           </Col>
         </Row>
 
@@ -110,7 +122,7 @@ class Dashboard extends Component {
                     <div className="small text-muted">Loss value</div>
                   </Col>
                 </Row>
-                <Easy_Charts url={'http://localhost:5000/update_chart_data'+ this.state.best_mode_prefix} model_name_callback={ this.handleCurrentModelNameChange } />
+                <Easy_Charts url={'http://localhost:5000/update_chart_data'+ this.state.best_mode_prefix} extra_info_callback={ this.handleExtraInfoChange } />
               </CardBlock>
             </Card>
           </Col>
