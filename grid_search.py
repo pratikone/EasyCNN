@@ -93,7 +93,7 @@ def run() :
 
         sess = tf.Session()
         K.set_session(sess)
-        params["historypath"] = "./history/evaluation"
+        params["historypath"] = "./history/current"
 
         if not os.path.exists(params['historypath']):
             os.makedirs(params['historypath'])
