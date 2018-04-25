@@ -109,6 +109,7 @@ def run() :
         for i in model.metrics_names:
             final_history[i] = history[count]
             count += 1
+        final_history['model'] = params["model_file"]   
         with open(params["historypath"] + "/model.txt", "w") as f:
             json.dump(final_history, f)  
                 
