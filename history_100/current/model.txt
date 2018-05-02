@@ -1,0 +1,1 @@
+{"model": "InceptionV3", "val_acc": 0.8115759675478028, "val_top_k_categorical_accuracy": 0.9436929850654806, "val_loss": 0.7532071832704559, "loss": 0.7247013635933399, "top_k_categorical_accuracy": 0.942138671875, "acc": 0.813232421875}
