@@ -1,4 +1,4 @@
--------------------Please follow the below guidlines before running the backend scripts---------------------------------------
+#-----------------------------Please follow the below guidlines before running the backend scripts---------------------------------------
 Please install the following tools/softwares:
 1. Install Python 3.5 or higher
 2. Install Anacodna. A detailed set of instructions can be found at https://machinelearningmastery.com/setup-python-environment-machine-learning-deep-learning-anaconda/
@@ -9,7 +9,7 @@ Please install the following tools/softwares:
 To perform steps 3-5 please refer to https://www.tensorflow.org/install and refer to the embedded guides as per your Operating System.
 Please note a GPU card with CUDA Compute Capability 3.0 or higher is required.
 
--------------------Please follow the below guidlines for Flask sever and running the front end---------------------------------------
+#-------------------Please follow the below guidlines for Flask sever and running the front end---------------------------------------
 
 ```
 python app.py
